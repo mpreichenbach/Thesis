@@ -1,0 +1,285 @@
+\chapter{An Integral Projection Model For Indeterminate Growth}
+
+\section{Integral Projection Models in Ecology} \label{section:ipmsinecology}
+
+In this thesis, we study operators which arise in \emph{integral projection models} (or \emph{IPMs}) describing animal populations in which the individuals exhibit indeterminate growth; that is, when individuals continue to grow throughout their lives. The operators in IPMs are not projections in the mathematical sense of the word; the term \emph{projection} comes from the fact that these models ``project" a current population size and structure into the future. We will exclusively use the term \emph{IPM} hereafter to avoid confusion.
+
+IPMs are discrete-time, stage-structured models introduced in \cite{Easterling1998} and \cite{Ellner2006}; they generalize Leslie matrices (see \cite{Caswell2001}) by allowing for the structure variable to take on values in a continuum. Hence, IPMs are appropriate when vital rates depend on a continuous variable, such as the length or biomass of an individual. The paper \cite{Briggs2010} is a gentle introduction to constructing IPMs, whereas \cite{Ellner2016} is a more detailed overview.
+
+The IPMs we consider in this thesis are given by an integral operator $T:L^1 \to L^1$ where
+\[\varphi_{t+1}(y) = (T\varphi_t)(y) := \int_L^U k(y,x) \varphi_t(x) \, dx.\]
+Here, $\varphi_{t}(x)$ is the population density in stage $x$ at time $t$, the nonnegative kernel function $k(y,x)$ describes how the distribution of individuals in stage $x$ contributes to the individuals in stage $y$ in the next time step, and $L$ and $U$ are the lower- and upper-limits of the structure variable, respectively. We assume that the kernel function $k(y,x)$ can be decomposed as 
+\[k(y, x) = s(x) g(y,x) + b(y)f(x),\]
+where $s(x)$ is the survival probability of an individual in stage $x$, $g(y,x)$ gives the probability that a stage $x$ individual grows to a stage $y$ individual in one time step, $b(y)$ is the size distribution of newborns, and $f(x)$ gives the expected number of offspring that an average individual in stage $x$ will produce in one time step. We will refer to $s(x)g(y,x)$ as the \emph{survival and growth} subkernel, and $b(y)f(x)$ as the \emph{fecundity} subkernel. In practice, these functions are usually determined by fitting appropriate curves to population data.
+
+IPMs have found wide use in the biological sciences \cite{Ellner2016}. In the case that the kernel function $k(y,x)$ is continuous and positive on the square $[L, U]^2$, the associated IPM operator $T$ has its spectral radius as an eigenvalue, and the associated eigenvector is nonnegative (among other things) \cite{Ellner2006}. In biological terms, the spectral radius of the operator $T$ is the asymptotic growth rate of the population, which we will denote by $\lambda$, and the associated eigenvector $\psi$ is the stable stage distribution. The eigenvector $\psi$ is important in conservation biology, because by comparing the stable stage distribution with a population distribution in the field, a biologist can determine if the field population has reached the steady state. 
+
+In the case that the kernel function $k(y, x)$ is bounded, $T$ is a compact operator on the relevant function space \cite{Ellner2006}. Compact operators can be uniformly approximated by matrices, which is one reason why an IPM with a compact operator is easier to work with. When a IPM operator is compact, ecologists can estimate the asymptotic growth rate of a population by approximating the infinite-dimensional operator with large matrices. The leading eigenvalues of these large matrices can thus give a good approximation of the asymptotic growth rate of the population, when modeled by an IPM.
+
+The appropriate choice for the structure variable depends on the ecology of the species being modeled, or what data ecologists can collect. Some common examples of structure variables in IPMs are animal biomass, stem diameter of plants, the proportion of tissue infected by a disease, and the length or height of individuals. However, this choice has mathematical consequences: if individuals can decrease in size from one time step to the next, the IPM operator $T$ will be compact; if individuals cannot decrease in size, we prove in Section \ref{section:noncompactness} that $T$ will not be compact. In the former case, the results in \cite{Ellner2006} apply to the operator $T$.
+
+For structure variables that cannot decrease over time, i.e., when the probability of shrinkage is zero, the growth subkernel $g(y, x)$ is unbounded. To get an intuitive idea for why this is the case, suppose that $G$ is the integral operator with kernel $g(y, x)$; this operator models the somatic growth of individuals over one time step. If individuals cannot shrink, and must continue to grow, then applying $G$ repeatedly yields a population dominated by individuals near the maximum body size. Since $g(y, x)$ does not incorporate mortality, the growth subkernel $g(y, x)$ must capture the growth of an increasingly concentrated population. Hence, $g(y, x)$ will be unbounded near the point $(U, U)$, where $U$ is the maximum body size. If the function $g(y, x)$ is unbounded, then the full IPM kernel $k(y, x)$ will be as well. 
+
+In general, it is possible for compact integral operators to have unbounded kernels; if this were the case for an IPM operator $T$, then the results proved in \cite{Ellner2006} would still apply. But in this paper, we will show that assuming individuals do not shrink implies not only that the kernel $k(y, x)$ is unbounded, but also that the associated integral operator is not compact. This means that the results proved in \cite{Ellner2006} do not apply to these populations, thus making it unclear whether IPMs with non-compact operators have an asymptotic growth rate or a stable stage distribution.
+
+Most IPMs in the literature have compact operators. Examples include those which model plant species that can shrink over time in poor growing conditions (\cite{Childs2003, Eager2013, Hegland2010, Jacquemyn2010, Miller2012, Tenhumberg2015, Rees2002}.  Additionally, \cite{Childs2011, Ellner2016, Coulson2011} used the biomass of sheep and wolf individuals as their structure variable, which can also decrease in poor environmental conditions. The paper \cite{Bruno2011} models the proportion of coral covered by a fungal infection, which can decrease over the course of a time step. Alternatively, some papers have used the length of fish and mollusks as structure variables, namely \cite{Aalto2019, Ohlberger2020, Stubberud2019, Vindenes2014} and \cite{Vindenes2015}, presumably because these were the only data available for parameterizing their IPM models. Since length cannot decrease from one time step to the next, their IPM operators are non-compact.
+
+In this thesis, we show that biologically relevant properties, such as the existence of an asymptotic growth rate and a stable stage distribution for the population, still hold for the non-compact IPM operator $T$. This allows ecologists to gain biological insight from IPMs in which individuals cannot shrink between time steps.
+
+\section{Mathematical Motivations} \label{section:mathematicalmotivations}
+
+IPMs are generalizations of matrix population models of the form
+\begin{align}
+	\vec{n}_{t+1} = A \vec{n}_t, \quad \vec{n}_0 \in \R^n, \label{eqn:system}
+\end{align}
+where $A$ is a matrix, and $\vec{n}_0$ a population vector, both with non-negative entries. The relevant spectral properties of the matrix $A$ in these models are guaranteed by the Perron-Frobenius Theorem (see \cite{Caswell2001}). Among other things, population matrices have the following three properties:
+\begin{enumerate}
+	\item \label{pf:radius} the spectral radius $r(A)$ is positive, and is an eigenvalue for $A$. The right and left eigenvectors $\vec{v}$, $\vec{v}^*$ associated to $r(A)$ are the only eigenvectors of $A$ which can be normalized to have all positive entries;
+	\item \label{pf:inequality} the operator $A$ has a ``spectral gap", meaning that
+	\[\max\{\sigma(A) \setminus \{\lambda\}\} < r(A);\]
+	\item \label{pf:limit} for any $\vec{n}_0 \in \R^n$ with nonnegative entries, and $\lambda=r(A)$ the spectral radius of $A$ associated to the right and left eigenvectors $\vec{v}$, $\vec{v}^*$, we have $ \langle \vec{n}_0, \vec{v}^* \rangle > 0$, and 
+	\[\lim_{k \to \infty} \frac{A^k \vec{n}_0}{\lambda^k} = \langle \vec{n}_0, \vec{v}^* \rangle \vec{v},\]
+	where $\langle \cdot, \cdot \rangle$ denotes the dot product in $\R^n$.
+\end{enumerate}
+
+In biological terms, property (\ref{pf:limit}) means that the population has a long-term growth rate of $\lambda = r(A)$, and the vector $\vec{v}$ is known as the \emph{stable stage distribution}. The vector $\vec{v}$ gives the relative proportions of each stage in the long-term population, or in other words, $\vec{v}$ captures the proportions one would expect to see in the population absent any external perturbations.
+
+The results in \cite{Krein1950} show that certain compact operators have property (\ref{pf:radius}), and many authors have since obtained generalizations of this result for wider classes of operators (for example, see the papers \cite{Anselone1974, Bonsall1958, Edmunds1972, Karlin1959, Kras1989, Lubben2009, Marek1967, Marek1970, Raghavan1965}, and \cite{Schaefer1960}). Various authors have also obtained results like (\ref{pf:inequality}) for a wider class of operators (see e.g. Chapter 12 of the book \cite{Kras1989}, and the references cited therein). In an appendix to the the paper \cite{Ellner2006}, the authors showed that certain compact operators arising from IPMs in mathematical ecology satisfy properties (\ref{pf:radius}), (\ref{pf:inequality}), and (\ref{pf:limit}).
+
+In this thesis, we consider a class of operators which come from IPMs recently constructed by mathematical ecologists, but for which the results in \cite{Ellner2006} do not apply. Specifically, the operators we consider are not compact. Out of the papers listed above, \cite{Bonsall1958, Edmunds1972, Karlin1959, Kras1989, Marek1967, Marek1970, Raghavan1965, Sawashima1964, Schaefer1960} considered operators $T:X \to X$ which are not necessarily compact. Instead, the authors impose topological conditions on the space $X$, or specific conditions on the operator $T$, in order to prove their results.  We note that IPMs are \emph{discrete-time} models, but results like (1)-(3) above are known for \emph{continuous-time} models as well; see Chapters 8-10 in the book \cite{Clement1987}. 
+
+For our purposes, the results proved in \cite{Marek1970}, \cite{Sawashima1964}, and \cite{Schaefer1960} will be useful to us in showing that the operators we consider have properties (\ref{pf:radius}) - (\ref{pf:limit}) of the Perron-Frobenius Theorem. Specifically, we will show that the operator $T:L^1 \to L^1$ is not compact, that it is \emph{strictly nonsupporting}, and that its spectral radius $r(T)$ is a pole of the resolvent operator $R(z, T)$. We will prove these facts in Sections \ref{section:noncompactness}, \ref{section:nonsup}, and \ref{section:pole} respectively. In Section \ref{section:mainresults}, we will show that the non-compact operator $T$ has properties (\ref{pf:radius})-(\ref{pf:limit}) above. This means that IPMs with non-compact operators of the form we consider have the theoretical properties one would want in a population model.
+
+\section{Definition of the IPM Operator and its Components} \label{section:operatordef}
+
+For functional analysis concepts and notation, we follow \cite{Conway1994}. All integrals will be with respect to the Lebesgue measure $\mu$, and ``a.e" means ``almost-everywhere" with respect to $\mu$. Let $\Omega := [L,U]$ denote a closed and bounded interval of $\R$. In IPMs, the limits $L$, $U$ will be positive values denoting the lower- and upper- limits for the structure variable, respectively.
+
+We will use the notation $L^1 : = L^1(\Omega)$ to denote the Banach space of integrable real-valued functions with norm
+\[||\varphi||_1 := \int_L^U |\varphi(t)| \, dt.\]
+The space $L^1$ is the natural space to work in for biological applications, because the norm $||\varphi||_1$ of the nonnegative population vector $\varphi$ gives the total population. We will also make use of the space $L^\infty = L^\infty(\Omega)$, which is the space of Lebesgue-measurable, essentially bounded functions with norm
+\[||h||_\infty := \ESSSUP \{|h(t)| \mid t \in \Omega\}.\]
+
+We study integral operators $T:L^1 \to L^1$ whose kernels take the form
+\begin{align}
+	k(y,x) = s(x) g(y,x) + b(y) f(x). \label{eqn:kernel}
+\end{align}
+Here, we will assume that the function $s(x)$ is continuous, increasing, and positive on $\Omega$, with 
+\[\sup_{x \in \Omega} \{s(x)\} < 1.\]
+This means that each individual has a chance of dying during each time step, and the positivity assumption means that any individual has a chance of surviving. We will assume that $b(y)$ is the offspring distribution, bounded almost-everywhere in $\Omega$ and positive almost-everywhere in the set $[L, x_b]$, where we allow (but do not require) that $b(y)$ can be zero for all $y > x_b$. In that case, $x_b$ is the largest size that an individual can attain in one time step after birth.
+
+Additionally, we suppose that there is some $x' \in [L, U)$ such that $f(x)$ is almost-everywhere bounded away from zero for $x \geq x'$. We have been unable to find an IPM in which these assumptions on $f(x)$ are not satisfied, and our results apply just as well when $f(x) > 0$ throughout $\Omega$ (in this case, one can take $x' = L$).
+
+Taken together, these assumptions on $s(x)$, $b(y)$, and $f(x)$ imply the existence of positive numbers, $s_0$, $s_1$, $b_1$, and $f_0$, $f_1$ such that
+\begin{align}
+	&0 < s_0 \leq s(x) \leq s_1 < 1, \quad \text{for almost every } x \in \Omega, \label{eqn:s(x)bounds} \\
+	&0 < b(y) \leq b_1 < \infty, \quad \text{for almost every } y \in \Omega, \label{eqn:b(y)bounds} \\
+	&0 < f_0 \leq f(x) \leq f_1 < \infty, \quad \text{for almost every } x \in [x', U] \label{eqn:f(x)bounds}
+\end{align}
+It will be convenient to assume that $s_1$, $b_1$, $f_1$ are the least such values, and that $s_0$, $f_0$ are the greatest such values.
+
+We assume that $g(y,x)$ is nonnegative on $[L,U)^2$ (note the open right endpoint), and also that for each $x \in [L,U)$,
+\begin{align}\int_L^U g(y,x) \, dy = 1. \label{eqn:gyx=1}\end{align}
+The assumption (\ref{eqn:gyx=1}) means that $g(y,x)$ is a probability distribution for each fixed $x \in [L, U)$. In biological terms, this means that a size $x$ individual will have size $y \in [L,U)$ in the following time step with probability $g(y, x)$. We will often refer to $g(y,x)$ as the \emph{growth subkernel} of $T$.
+
+Of particular interest to us in this paper are operators with a kernel of the form (\ref{eqn:kernel}) such that
+\begin{align}
+	g(y,x) = 0, \quad \text{whenever } y < x, \label{eqn:gyx=0}
+\end{align} 
+and in this case we will say that $g(y,x)$ is ``zero below the diagonal". When the operator $T$ models a stage-structured population such that individuals cannot move to lower stages (for example, when $\Omega$ is a set of possible lengths, and individuals exhibit indeterminate growth), $g(y,x)$ satisfies (\ref{eqn:gyx=0}). Note that we do not require $g(y, x)$ to be continuous, so in particular it may be positive for $y=x$ and still satisfy \eqref{eqn:gyx=0}.
+
+Taken together, assumptions (\ref{eqn:gyx=1}) and (\ref{eqn:gyx=0}) imply that $g(y,x)$ is unbounded in any neighborhood of the point $(U, U) \in \R^2$, which is why we assume $g(y,x)$ is defined on $[L,U)^2$, rather than $[L,U]^2$. 
+
+\begin{example}
+	We have included Figure \ref{fig:growth-kernel-plot} below as an example of an unbounded growth kernel from \cite{Vindenes2014}; they include an extra parameter $z$ for temperature, which we set to 10.34, the mean of the time series they consider. The function in Figure \ref{fig:growth-kernel-plot} is given by
+	\[g(y, x) = \left\{ \begin{array}{lc} \frac{\rho(y, x)}{\int_x^U \rho(y, x) \, dy}, & y \geq x, \\ 0, & y < x \end{array} \right. ,\]
+	where
+\begin{align}
+	\rho(y, x) &:= \frac{1}{\sqrt{2 \pi}(y - x) v(x)} \exp \left( - \frac{(\ln(y - x) - \mu(x))^2}{2 v(x)} \right), \label{eqn:rhodef}\\
+	\mu(x) &:= \log \left( \frac{(m(x)-x)^2}{\sqrt{(m(x) - x)^2 + \sigma(x)^2}}\right), \label{eqn:linearmudef} \\
+	v(x) &:= \log \left( 1 + \frac{\sigma(x)^2}{(m(x)-x)^2}\right).	\label{eqn:linearvdef}
+\end{align}
+	Equation \ref{eqn:rhodef} is the lognormal probability density function for the growth increment $(y - x)$. In equations \eqref{eqn:linearmudef} and \eqref{eqn:linearvdef}, the function $m(x)$ is the ``average expected size" function (which is usually fit to population data), and $\sigma(x)$ is the standard deviation of sizes at size $x$. Also, note that $m(x)$ and $\sigma(x)$ are functions of the size $x$ on a linear scale, hence why the conversions \eqref{eqn:linearmudef} and \eqref{eqn:linearvdef} are necessary.
+	\begin{center}
+		\begin{figure}
+			\centering
+			\includegraphics[width=\textwidth]{"Images/Growth Kernel Plot"}
+			\caption{The growth kernel $g(y,x)$ for the northern pike IPM} \label{fig:growth-kernel-plot}
+		\end{figure}
+	\end{center}
+	In Figure \ref{fig:growth-kernel-plot}, we left the surface unshaded in the region $y < x$, to indicate that $g(y,x) = 0$ there. This is the way to incorporate the biological assumption that individuals cannot transition to a smaller size; i.e., they cannot ``shrink". Note that the plot becomes unbounded in a neighborhood of the point $(U,U)$, where $U$ is the maximum size.
+	
+\end{example}
+
+In \cite{Ellner2006}, the IPM kernel is strictly positive and continuous, and hence bounded away from zero in the square $[L, U]^2$. We cannot make this same assumption, because we allow the component functions $g(y,x)$, $b(y)$, and $f(x)$ to possibly be zero in sets of positive measure. Hence, we will need further assumptions to prove similar results to those in \cite{Ellner2006}; we will denote these assumptions by (\textbf{M}), (\textbf{R}), and (\textbf{S}):
+
+\begin{enumerate}
+	\item[(\textbf{M})] there is a continuous, strictly increasing function $\eta:[L,U] \to [L,U]$ such that $\eta(U)=U$, $\eta(x)>x$ for all $x \in [L,U)$, and
+	\begin{align}
+		\int_{\eta(x)}^U g(y,x) \, dy &> 0, \quad \text{for a.e. } x \in \Omega, \label{eqn:M1}\\
+		\int_L^{\eta^{-1}(y)} g(y,x) \,dx &> 0, \quad \text{for a.e. } y > \eta(L), \label{eqn:M2}\\
+		g(y, x) &> 0, \quad \text{for a.e. } (y, x) \text{ such that } x < y < \eta(x); \label{eqn:M3}
+	\end{align}
+	\item[(\textbf{R})] there exists an $\ee_1 > 0$ and a closed rectangle $R \subseteq [L, U)^2$ of the form
+	\[R := [U - \ee_1, U] \times [t_1, t_2],\]
+	such that for  $L \leq t_1 \leq t_2 \leq y$, and $g(y, x) > 0$ almost-everywhere in $R$;
+	\item[(\textbf{S})]  there is some $\ee_2 > 0$ such that $s(x) \equiv s_1$ for $x \in [U - \ee_2, U]$.
+\end{enumerate} 
+When constructing an IPM kernel from data for a specific population, one often fits the average growth function, which gives the mean expected size for an individual of size $x$ to grow to in one time step. Depending on the form of $g(y, x)$, one can usually take take this average growth function to be $\eta$, or a related function like in the example above where $\mu$ satisfies assumption (\textbf{M}). Assumption (\textbf{R}) looks onerous, but if a growth kernel $g(y, x)$ is obtained by fitting positive probability distributions to data, it will satisfy assumption (\textbf{R}). Although (\textbf{S}) is a technical condition we need to prove a result, we believe it is reasonable because the operators in \cite{Ohlberger2020, Stubberud2019, Vindenes2014, Vindenes2015} all satisfy it.
+
+For notational convenience, we will sometimes write $T:L^1 \to L^1$ in terms of its components
+\[T = GS + bF,\]
+where $G:L^1 \to L^1$ is the integral operator with kernel $g(y,x)$, $S:L^1 \to L^1$ is multiplication by $s(x)$, $F:L^1 \to \R$ is the fecundity functional defined by
+\[\varphi \mapsto \int_L^U f(t) \varphi(t) \, dt,\]
+and $b$ is the offspring distrubition. We will call $G$ the growth operator, the composition $GS$ as the ``growth and survival" operator, and $bF$ the ``fecundity" operator.
+
+\section{Mathematical Preliminaries} \label{section:mathprelims}
+
+Given a Banach space $X$, we denote the space of continuous linear functionals on $X$ as $X^*$; the space $X^*$ is known as the Banach dual space of $X$. In this paper, we will only consider the case where $X=L^1$, in which case $X^* = L^\infty$, and the functionals are represented by some $h \in L^\infty$ acting by integration on elements in $L^1$. We will use the inner-product notation $\langle \varphi, h \rangle$ to denote this action; that is, for $\varphi \in L^1$ and $h \in L^\infty$, we define
+\begin{align}
+	\langle \varphi, h \rangle := \int_L^U \varphi(t) \, h(t) \, dt. \label{eqn:functional}
+\end{align}
+We will sometimes abuse terminology by referring to the element $``h"$ as a functional, but it should be clear we mean it represents a functional given by \eqref{eqn:functional}.
+
+Given a linear operator $T:X \to Y$ between normed vector spaces $X$ and $Y$, we denote the \emph{operator norm} of $T$ to be the quantity
+\[||T|| := \sup \{ ||T\varphi||_Y \mid ||\varphi||_X = 1\},\]
+where the subscripts denote which space the norm is taken in. If this operator norm is finite, we say that $T$ is a bounded operator. It is straightforward to show that the integral operator $T:L^1 \to L^1$, with kernel $k(y, x)$ satisfying \eqref{eqn:kernel} - \eqref{eqn:gyx=1}, is bounded.
+
+The Banach adjoint of $T$, denoted $T^*:X^* \to X^*$, is the unique operator such that
+\[\langle T \varphi, h \rangle = \langle \varphi, T^*h \rangle,\]
+for all $x \in X$ and $h \in X^*$.
+
+For a linear operator $T:X \to X$, with $X$ a vector space over $\C$, the \emph{spectrum} of $T$ is the set
+\[\sigma(T) := \{z \in \C \mid z I- T \text{ is not boundedly invertible}\}.\]
+Here, $I$ is the identity operator. Additionally, we denote the \emph{spectral radius} of the operator $T$ by $r(T)$, where
+\[r(T) := \sup \{ |z| \mid z \in \sigma(T)\}.\]
+The \emph{peripheral spectrum} $\sigma_p(T)$ are those $z \in \sigma(T)$ such that $|z| = r(T)$. 
+
+Another subset of $\sigma(T)$ which will be useful to us is known as the \emph{essential spectrum}; we will denote this subset by $\sigma_e(T)$. There many definitions of the essential spectrum in the literature, but we use the one given in \cite{Browder1961} and \cite{Edmunds1972}:
+
+\begin{definition}
+	The \emph{essential spectrum} $\sigma_e(T)$ of an operator $T$ is the collection of complex numbers $z \in \sigma(T)$ such that at least one of the following conditions holds:
+	\begin{enumerate}
+		\item the range of $(z I - T)$ is not closed;
+		\item $z$ is a limit point of $\sigma(T)$;
+		\item $\cup_{n=1}^\infty \ker (z I- T)^n$ is infinite-dimensional,
+	\end{enumerate}
+	where $\ker(\cdot)$ denotes the kernel of its argument.
+\end{definition}
+
+We also make use of the \emph{essential spectral radius} of the operator $T$, which we denote $r_e(T)$, and which is defined analogously to the ordinary spectral radius:
+\[r_e(T) := \sup \{ |z| \mid z \in \sigma_e(T)\}.\]
+For the other common definitions of the essential spectrum, each has the same essential spectral radius, a fact proved in \cite{Edmunds1987}.
+
+Note that the operators in IPMs are naturally operators on a real vector space; in order to talk about the spectrum of an operator $T:X \to X$, with $X$ a vector space over $\R$, we define the \emph{complexifications} of $T$ and $X$, denoted $T_c$ and $X_c$, where
+\begin{align}
+	X_c := X \oplus i X \label{eqn:complexifyxpace},
+\end{align}
+and $T_c: X_c \to X_c$ is the linear operator such that
+\begin{align}
+	T_c(\varphi_1 + i \varphi_2) := T(\varphi_1) + i T(\varphi_2). \label{eqn:complexifyT}
+\end{align}
+When we refer to ``the spectrum of $T$", where $T$ is an operator on a real vector space, we actually mean the spectrum of its complexification $T_c$. One can show that $X_c$ is a Banach space over $\C$, with addition and scalar multiplication defined in the natural way, and with the norm $|| \cdot ||_c$ defined by
+\[||\varphi_1 + i \varphi_2||_c := \frac{1}{\sqrt 2} \cdot \sup_{0 \leq \theta < 2\pi} (||\cos( \theta ) \varphi_1 - \sin( \theta ) \varphi_2|| + ||\sin( \theta ) \varphi_1 + \cos( \theta ) \varphi_2 ||)\]
+The complexification $T_c$ is linear and bounded if and only if $T$ is also linear and bounded. Additionally, the norms of $T$ and $T_c$ coincide:
+\begin{align}
+	||T|| = ||T_c||_c. \label{eqn:equalnorms}
+\end{align}
+For more information concerning complexifications of real vector spaces and operators, see \cite{Edmunds1972}. 
+
+To compute spectral radii, we will make use of Gelfand's formula, which is the statement that
+\begin{align}
+	r(T) = \lim_{n \to \infty} ||T||^{1/n}. \label{eqn:gelfand}
+\end{align}
+The \emph{resolvent} of $T$ is the function $R(z, T):= (zI - T)^{-1}$, which is well-defined in the \emph{resolvent set} $\rho(T):= \C \setminus \sigma(T)$. It turns out that $R(z, T)$ is a holomorphic function in $\rho(T)$, and in the case that $|z| > r(T)$, we can write $R(z, T)$ as a so-called \emph{Neumann series} given by
+\begin{align}
+	R(z, T) &= \sum_{k = 0}^\infty \frac{T^k}{z^{k+1}}. \label{eqn:neumannseries}
+\end{align}	
+
+In order to study the essential spectrum $\sigma_e(T)$, we will make use of the \emph{ball measure of non-compactness}, or \emph{ball MNC} for short. Some authors also use the term \emph{Hausdorff MNC}. We follow the definitions, terminology, and results in \cite{Akhmerov1992}:
+
+\begin{definition} \label{th:betadef}
+	The \emph{ball measure of non-compactness} of a subset $V$ of the vector space $X$, denoted $\beta(V)$, is given by
+	\[\beta(V):= \inf\{ r>0 \mid V \text{ can be covered by finitely many balls of radius } r \}.\]
+	Clearly $0 \leq \beta(V) \leq \infty$; other properties of $\beta(\cdot)$ which will be useful to us are:
+	\begin{enumerate}
+		\item $\beta(V) = 0$ if and only if $V$ is pre-compact (that is, if and only if the closure of $V$ is compact);
+		\item For the set
+		\[V + W := \{v + w \mid v \in V, w \in W\},\]
+		we have
+		\[\beta(V+W) \leq \beta(V) + \beta(W)\]
+		for all $V$, $W \subseteq X$;
+		\item $V_1 \subseteq V_2$ implies that $\beta(V_1) \leq \beta(V_2)$;
+		\item $\beta(\lambda V) = |\lambda| \, \beta(V)$ for each $\lambda \in \C$;
+		\item For any point $x_0 \in X$, we have $\beta(V+x_0) = \beta(V)$.
+	\end{enumerate}
+\end{definition}
+For further useful properties that $\beta$ satisfies, see \cite{Akhmerov1992}. There are other commonly used MNC's, but the ball-MNC $\beta$ is especially useful for us because there is a formula for $\beta(V)$ when  $V \subseteq L^p(\R)$, $1 \leq p \leq \infty$. Let $X$ be one of these spaces, and $V \subseteq X$ any subset. Then we have that
+\begin{align}
+	\beta(V) = \frac 12 \lim_{\delta \to 0} \sup_{\varphi \in V} \sup_{0<\tau \leq \delta} ||\varphi - \varphi_\tau||_X \label{eqn:betaformula}
+\end{align}
+where $\varphi_\tau(t) := \varphi(t + \tau)$.
+
+We note that the domain of the functions we consider is $\Omega = [L,U]$, but we can apply (\ref{eqn:betaformula}) by extending their domain to all of $\R$ by setting $\varphi(x) = 0$ for $x$ outside $\Omega$, for every $\varphi \in L^1(\Omega)$.
+
+There is a formula for $r_e(T)$, first given in \cite{Nussbaum1970}, which makes use of the ball-MNC $\beta$. Letting $\ms U \subseteq X$ denote the unit ball in the space $X$, and writing $\beta(T) := \beta(T(\ms U))$, we have that
+\begin{align}
+	r_e(T) = \lim_{n \to \infty} \beta(T^n)^{1/n} \label{eqn:esr}
+\end{align}
+Note the similarity between this formula for the essential spectral radius, and Gelfand's formula \eqref{eqn:gelfand} for the ordinary spectral radius. Using the formulas (\ref{eqn:betaformula}) and (\ref{eqn:esr}) together, we will be able to compute the essential spectral radius of the non-compact operator $T:L^1 \to L^1$ in Section {\ref{section:pole}.
+
+The operators we study in this paper are examples of \emph{positive} operators, which means that they are invariant on a cone $K$ in a Banach space $X$. We follow the book \cite{Kras1989} for definitions and theorems regarding cones.
+	\begin{definition}
+		A closed convex set $K$ of the real Banach space $X$ is called a \emph{cone} if the following conditions hold:
+		\begin{enumerate}
+			\item for any $x \in K$ and $a \geq 0$, the element $ax$ is in $K$,
+			\item for any pair $x$, $y \in K$, the element $x +y$ is in $K$, and 
+			\item $K \cap -K = \{0\}$.
+		\end{enumerate}
+	\end{definition}
+	
+	Defined in this way, we get a partial ordering on the cone $K$: for two elements $x$, $y \in K$, we say that $x \leq y$ if and only if $y-x \in K$. 
+	
+	It is straightforward to check that the collections of nonnegative a.e. functions in $L^1$ and $L^\infty$ are cones; we refer to these as the \emph{standard cones} in their respective spaces.
+	
+	Given a cone $K$, we will also make use of its dual cone:
+	
+	\begin{definition}
+		Suppose that $X$ is a Banach space with cone $K$, and let $X^*$ be the Banach dual space of $X$. The \emph{dual cone} of $K$, denoted $K^* \subseteq X^*$, is the collection of all continuous linear functionals $h$ such that $h(x) \geq 0$, for all $x \in K$.
+	\end{definition}
+	
+	It is a straightforward exercise to show that if $K$ is the standard cone in $L^1$, its dual cone $K^*$ is the standard cone in $L^\infty$. For the next definition, we use the notation
+	\[K-K := \{x-y \mid x, y \in K\}.\]
+	
+	\begin{definition}
+		An operator $T:X \to X$, (possibly nonlinear), with $X$ a real Banach space,  is called \emph{positive} with respect to a cone $K \subseteq X$ if $T(K) \subseteq K$.
+	\end{definition}
+	This definition yields a partial order on the set of positive operators: if $T_1$, $T_2$ are positive operators, we say that $T_1 \leq T_2$ if $T_2 - T_1$ is a positive operator.
+	
+	We will sometimes call an operator simply ``positive", and drop references to the particular cone $K$, as we are only concerned with the standard cones $K \subseteq L^1$ and $K^* \subseteq L^\infty$. Hereafter, when we write $K$ and $K^*$, we mean the standard cones in $L^1$, $L^\infty$ respectively.
+	
+	\begin{example}
+		Supposing it is well-defined, the integral operator $T:L^1 \to L^1$ of the form
+		\[(T\varphi)(y) := \int_L^U k(y,x) \varphi(x) \, dx\]
+		is an example of a positive operator with the respect to $K$, whenever $k(y,x) \geq 0$ almost-everywhere. Additionally, the Banach dual $T^*:L^\infty \to L^\infty$ is also a positive operator in that it maps $K^*$ into $K^*$, and is given by
+		\[(T^* \varphi^*)(x) = \int_L^U k(y,x) \varphi^*(y) \, dy.\]
+		That is, the Banach adjoint of an integral operator is obtained by ``transposing" the kernel function, i.e., by integrating with respect to $y$ instead of $x$.
+	\end{example}
+	
+	In Section \ref{section:nonsup}, we will show that the IPM operator in this paper is \emph{strictly nonsupporting}, which is a concept introduced in \cite{Sawashima1964}, and further elaborated in \cite{Marek1970, Niiro1966a} and \cite{Niiro1966b}. We follow the terminology of \cite{Marek1970} on this topic:
+	
+	\begin{definition} \label{def:nonsup}
+		Suppose $T$ is a positive operator with respect to the cone $K$, and suppose that $\varphi \in K$, $\varphi^* \in K^*$ are both nonzero.
+		\begin{enumerate}
+			\item $T$ is called \emph{nonsupporting} if for every pair $\varphi$, $\varphi^*$ there is a positive integer $p = p(\varphi, \varphi^*)$ such that $\langle T^n \varphi, \varphi^* \rangle >0$ for every $n \geq p$.
+			\item $T$ is called \emph{strictly nonsupporting} if for every pair $\varphi$, $\varphi^*$ there is a positive integer $p=p(\varphi)$ such that $\langle T^n \varphi, \varphi^* \rangle > 0$ for every $n \geq p$.
+		\end{enumerate}
+	\end{definition}
+	Note that if $T$ is strictly nonsupporting, it is also nonsupporting. We will also make use of the following concepts in proving our main results:
+	
+	\begin{definition}
+		Given a cone $K$, an element $\varphi \in K$ is called \emph{quasi-interior} if $\langle \varphi, \varphi^* \rangle > 0$ for all nonzero $\varphi^* \in K^*$.
+	\end{definition}
+	
+	\begin{definition}
+		Given a cone $K$, an element $\varphi^* \in K^*$ is called \emph{strictly positive} if $\langle \varphi, \varphi^* \rangle > 0$ for all nonzero $\varphi \in K$.
+	\end{definition}

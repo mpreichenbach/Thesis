@@ -1,0 +1,125 @@
+\chapter{Estimating the Spectral Radius $\lambda = r(T)$}
+
+\setcounter{section}{1}
+
+In the previous section, we proved that the spectral radius $\lambda = r(T)$ is an eigenvalue of the operator $T$, but said nothing about how to approximate it. Since the operator $T$ we consider in this paper is not compact, it cannot be approximated uniformly by finite-rank operators (i.e., matrices). Hence, the standard methods given in \cite{Ellner2006} to approximate $\lambda$ will not work in this case, because the operator they considered was compact. However, we will show that the zeros of functions defined by sums of compact operators will converge to $\lambda$. This result shows that it is theoretically possible to use compact operators, but in a different way than in \cite{Ellner2006}, to approximate the spectral radius $\lambda$ of the non-compact operator $T$.
+
+Before we state our results, put $A:=GS$, for notational simplicity. Consider the three functions
+\begin{align}
+Q(t) &:= -1 + \sum_{k=0}^\infty \frac{F(A^kb)}{t^{k+1}}, \label{eqn:Qdef}\\
+Q_n(t) &:= -1 + \sum_{k = 0}^n \frac{F(A^k b)}{t^{k + 1}}, \label{eqn:Qndef} \\
+Q_{n, \dd}(t) &:= -1 + \sum_{k = 0}^n \frac{F(A_\dd^k b)}{t^{k + 1}}, \label{eqn:Qnddef}
+\end{align}
+where $A_\dd := G_\dd S$, and $G_\dd$ is the integral operator with kernel
+\begin{align}
+	g_\dd(y, x) := \begin{cases} g(y, x), & \text{if } (y, x) \in [L,U] \times [L,U-\dd], \\ 0, & \text{otherwise} \end{cases}. \label{eqn:gdelta}
+\end{align}
+
+Recall that $Q(t)$ is well-defined for $t \in (s_1, \infty)$, since $s_1 = r(A)$. However, both $Q_n(t)$ and $Q_{n, \dd}$ are defined for any $t \in \R$ (assuming $\dd < U -L$). The main result of this section will be a consequence of the following general fact:
+
+\begin{lemma} \label{th:zeroconv}
+	Let $f$ be a function defined on a set $\Omega \subset \R$ with a zero $z \in \Omega$, and suppose $\{f_n\}$ is a sequence of functions such that $f_n(z_n) = 0$ for some $z_n \in \Omega$. Further, suppose that the following facts hold:
+	\begin{enumerate}
+		\item $f_n \to f$ pointwise on $\Omega$;
+		\item $f$ and each $f_n$ are strictly decreasing on $\Omega$;
+		\item the sequence $\{f_n(t)\}$ is strictly increasing for each $t \in \Omega$;
+		\item $f_n(t) < f(t)$ for each $n$ and $t \in \Omega$. 
+	\end{enumerate}
+Then $z_n \to z$.
+\end{lemma}
+
+\begin{proof}
+	Note that each zero $z_n$ is the unique value in $\Omega$ such that $f_n(z_n) = 0$, since each $f_n$ is strictly decreasing. We claim that the sequence $\{z_n\}$ of zeros is a strictly increasing sequence. To see this, suppose that $z_{k + 1} \leq z_k$ for some $k$. This implies that
+	\[0 = f_{k+1}(z_{k+1}) \geq f_{k+1}(z_k) > f_k(z_k) = 0,\]
+	where the ``$\geq$" inequality comes from assumption (2), and the strict inequality comes from assumption (3). But this is impossible, so we conclude that $\{z_n\}$ is strictly increasing.
+	
+%	To see this, note first that the equality $z_{n + 1} = z_n$ is impossible, because in this case
+%	\[0 = f_{n + 1}(z_{n +1}) = f_{n + 1}(z_n) > f_n(z_n) = 0,\]
+%	where the inequality comes from property (3) above. Suppose then that $z_{n + 1} < z_n$; in this case, we have that 
+%	\[0 = f_{n + 1} (z_{n + 1}) > f_n(z_{n + 1}) > f_n(z_n) = 0,\]
+%	where the first inequality comes from assumption (3), and the second from assumption (2). Hence, we conclude that $\{z_n\}$ is a strictly increasing sequence.
+	
+	We claim that $z_n \leq z$, for all $n$. To see this, suppose otherwise that $z_k > z$ for some $k$. Then we have the contradiction
+	\[0 = f_k(z_k) \leq f_k(z) < f(z) = 0,\]
+	where the first inequality comes from assumption (2), and the second from assumption (4).
+	
+	Thus, $\{z_n\}$ is (strictly) increasing and bounded above, so it has a limit point $z^*$. We claim that $z^* = z$; to see this, suppose otherwise that $z^* < z$. Then
+	\[f(z^*) > f(z) = 0,\]
+	by assumption (2), and thus $f(t) > 0$ for all $t \in [z^*, z)$. Additionally, $z_n < z^*$ for all $n$, so
+	\[0 = f_n(z_n) > f_n(t)\]
+	for all $t > z_n$. Thus, $f_n(t) < 0$ for all $t \in [z^*, z)$, in particular. But then $f$ cannot be the pointwise limit of $f_n$ on the interval $[z^*, z)$, contradicting assumption (1). We conclude that $z^* = z$, and therefore
+	\[\lim_{n \to \infty} z_n = z,\]
+	as claimed.
+\end{proof}
+
+With this general result, we will prove two lemmas before the main theorem:
+
+\begin{lemma} \label{th:QandQn}
+	There is an $N \in \N$ such that for $n \geq N$, the sequence $\{Q_n\}$ and function $Q$ satisfy the hypotheses of Lemma \ref{th:zeroconv}, in place of $f_n$ and $f$ respectively.
+\end{lemma}
+
+\begin{proof}
+	Note that $Q_n$ and $Q$ are both defined on $\Omega:= (s_1, \infty)$. The fact that $Q_n \to Q$ pointwise follows immediately from the definitions \eqref{eqn:Qdef} and \eqref{eqn:Qndef}. The function $Q$ is strictly decreasing on $\Omega$ by Lemma \ref{th:Pmufacts}. What's more, the same argument given in the proof of Lemma \ref{th:Pmufacts} shows that $Q_n$ is strictly decreasing, so long as $n \geq N_1$, where $N_1 \in \N$ is such that $F(A^n b) > 0$ for $n \geq N_1$; the existence of this $N_1$ is given in the proof of Lemma \ref{th:Pmufacts}. Additionally, $\{Q_n(t)\}$ is a strictly increasing sequence for any $t > 0$, so long as $n \geq N_1$, since $F(A^n b )>0$ for these $n$.
+	
+	Finally, Lemma \ref{th:Pmufacts} also guarantees that $Q$ has a unique zero, call it $\lambda$, in $(s_1, \infty)$. We claim that $Q_n$ has a unique zero in $(s_1, \infty)$ for $n$ large enough; to see this, note first that 
+	\[\lim_{t \to \infty} Q_n(t) = -1\]
+	 for any $n$. Since $\lambda > s_1$, pick any $t_1 \in (s_1, \lambda)$. Since $Q_n \to Q$ pointwise on the interval $[t_1, \lambda]$, and $Q(t_1) > 0$, there is an $N_2 \in \N$ such that $Q_n(t_1) > 0$ for all $n \geq N_2$. The continuity of each $Q_n$ thus implies that $Q_n$ has a zero $z_n$ in $(s_1, \infty)$ for $n \geq N_2$, and this zero is unique because $Q_n(t)$ is strictly decreasing. Putting $N:= \max\{N_1, N_2\}$, the functions $Q$, $Q_n$ therefore satisfy all hypotheses of Lemma \ref{th:zeroconv}, so long as $n \geq N$.
+\end{proof}
+
+Next, we prove a similar result for $Q_n$ and $Q_{n, \dd}$; however, we will need one more assumption on the offspring distribution $b(y)$:
+
+\begin{lemma} \label{th:QnandQnd}
+	Suppose that $n \geq N$ is fixed, where $N$ is the number guaranteed in the previous lemma. Also, suppose that $b(y) > 0$ almost everywhere. Then there is a $\dd(n)>0$ such that for $0< \dd < \dd(n)$, the functions $Q_{n, \dd}$ satisfy the hypotheses of Lemma \ref{th:zeroconv}, in place of $f_n$ (except with $\dd$ the indexing variable, and limits taken as $\dd \to 0$).
+\end{lemma}
+
+\begin{proof}
+	First, we will show that $Q_{n, \dd} \to Q_n$ pointwise. To this end, fix some $t \in (s_1, \infty)$, and note that
+	\begin{align*}
+		|Q_n(t) - Q_{n, \dd}(t)| = F \left( \sum_{k=0}^n \frac{(A^k b - A_\dd^k b)}{t^{k + 1}} \right),
+	\end{align*}
+	which goes to zero  as $\dd \to 0$ so long as $||A^k b - A_\dd^k b||_1 \to 0$. This is indeed the case, since we have
+	\begin{align*}
+		||A^k b - A_\dd^k b||_1 & = \int_L^U \left| (A^k b - A^k_\dd b)(y) \right| dy \\
+		&\leq s_1^k \int_L^U (G^kb - G^k_\dd)(b)(y) dy \\
+		&= s_1^k \cdot ||b||_\infty \int_L^U \int_L^U (g(y, x_k) - g_\dd(y, x_k)) \int_L^U \cdots \int_L^U (g(x_2, x_{1}) - g_\dd(x_2, x_{1}) dx_1 \cdots dx_k dy \\
+		&=s_1^k \cdot ||b||_\infty \int_L^U \int_{U - \dd}^U g(y, x_k) \int_{U - \dd}^U g(x_k, x_{k - 1}) \int_{U - \dd}^U \cdots \int_{U - \dd}^U g(x_2, x_1) dx_1 \cdots dx_k dy \\
+		&= s_1^k \cdot ||b||_\infty \int_L^U g(y, x_k) \int_{U - \dd}^U g(x_k, x_{k - 1}) \int_{U - \dd}^U \cdots \int_{U - \dd}^U g(x_2, x_1) \underbrace{\int_{U-\dd}^U dx_1}_{= \dd} dx_2 \cdots dy \\
+		&\leq s_1^k ||b||_\infty \cdot \dd,
+	\end{align*}
+	where we applied Fubini-Tonelli to shift all integrals to the right from the third-to-last to the second-to-last line. In that penultimate expression, the integrals with respect to $x_2, \ldots, y$ are each less than or equal to, 1 by assumption on $g(y, x)$. Taking the limit $\dd \to 0$ thus implies that $||A^kb - A_\dd^b||_1 \to 0$, and hence that $Q_{n, \dd} \to Q_n$ pointwise.
+	
+	Next, recall that the $N \in \N$ from the previous lemma was chosen so that $F(A^n b) > 0$ for $n \geq N$. This means that $A^n b >0 $ on a set of positive measure in $[x', U]$, where $x'$ is the size of maturity. Hence, there is some $\dd_0>0$ such that $A^n_{\dd_0}b >0$ on a set of positive measure in $[x', U]$ as well. Then for any $\dd < \dd_0$, we have
+	\[0 < F(A^n_{\dd_0} b) \leq F(A^n_{\dd} b),\]
+	which implies that $Q_{n, \dd}(t)$ is strictly decreasing in $t$ for these $\dd$, by the same argument given in the proof to Lemma \ref{th:Pmufacts}.
+	
+	Since $b(y) > 0 $ a.e., we have the inequality
+	\[0 < F(A_{\dd_1}^k b) < F(A_{\dd_2}^k b)\]
+	whenever $\dd_1 > \dd_2$. Hence, $Q_{n, \dd}(t)$ strictly increases to $Q_n(t)$ as $\dd \to 0$.
+	
+	Finally, by assumption on $n$ we know that $Q_n$ has a zero, call it $z_n$, in $(s_1, \infty)$. Fix some $t_2$ such that $s_1 < t_2 < z_n$. Since $Q_{n, \dd} \to Q_n$ pointwise on $(s_1, \infty)$, there is a $\dd_3$ such that for $\dd < \dd_3$, we have $Q_{n, \dd}(t_2) > 0$. Note also that $Q_{n, \dd}$ is continuous, which comes immediately from the definition \eqref{eqn:Qnddef}, and also that $\lim_{t \to \infty} Q_{n, \dd}(t) = -1$. Hence, there is a $z_{n, \dd} \in (s_1, \infty)$ such that $Q_{n, \dd}(z_{n, \dd}) = 0$, and this is the unique such value since $Q_{n, \dd}(t)$ is strictly decreasing with respect to $t$.
+	
+	Therefore, for $\dd < \dd(n):= \min\{\dd_0, \dd_3\}$, each function $Q_{n, \dd}$ satisfies the hypotheses of Lemma \ref{th:zeroconv}, where $\dd$ is the indexing variable, and limits are taken as $\dd \to 0$.
+\end{proof}
+
+We now have the tools we need to prove the main result of this section:
+
+\begin{theorem}
+	For every $\ee>0$, there is an $N \in \N$ and a $\dd(N) >0$ such that for any $n \geq N$ and $\dd < \dd(n)$, we have
+	\[|z_{n, \dd} - \lambda | < \ee,\]
+	where $z_{n, \dd}$ is the unique zero of $Q_{n, \dd}$.
+\end{theorem}
+
+\begin{proof}
+	Fix $\ee>0$. Lemma \ref{th:QandQn} implies that there is an $N \in \N$ such that for $n \geq N$, the function $Q_n$ satisfies all hypotheses of Lemma \ref{th:zeroconv}; additionally, Lemma \ref{th:QnandQnd} gives a $\dd(n) > 0$ for each $n \geq N$ such that $Q_{n, \dd}$ satisfies all hypotheses of Lemma \ref{th:zeroconv}, with $\dd$ the indexing variable. Hence, Lemma \ref{th:zeroconv} respectively gives an $N' \geq N$ such that $n' \geq N'$ implies
+	\[|z_{n'} - \lambda | < \frac{\ee}{2},\]
+	and a $\dd(N') > 0$ such that for $0 < \dd < \dd(N')$, we have
+	\[|z_{n, \dd} - z_{n}| < \frac{\ee}{2}.\]
+	Therefore, for any such values of $n$ and $\dd$, the triangle inequality gives
+	\[|z_{n, \dd} - \lambda| \leq |z_{n, \dd} - z_n| + |z_n - \lambda| < \frac{\ee}{2} + \frac{\ee}{2} = \ee,\]
+	which proves the claim.
+\end{proof}
+
+
+
+
+

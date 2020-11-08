@@ -1,0 +1,151 @@
+\documentclass[final]{nuthesis}
+\usepackage{amssymb, amsthm, amsmath, amsfonts}
+\usepackage{mathrsfs}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{lineno}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{multicol}
+\usepackage{xr}
+
+\externaldocument{An_IPM_For_Indeterminate_Growth/An_IPM_For_Indeterminate_Growth}
+\externaldocument{Spectral_Properties/Spectral_Properties}
+\externaldocument{Estimating_the_Spectral_Radius/Estimating_the_Spectral_Radius}
+\externaldocument{Simulations_of_a_Density-Dependent_Growth_Model/Simulations_of_a_Density-Dependent_Growth_Model}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{definition}
+\newtheorem{example}{Example}[section]
+
+\numberwithin{theorem}{section}
+\numberwithin{lemma}{section}
+\numberwithin{corollary}{section}
+\numberwithin{definition}{section}
+\numberwithin{equation}{section}
+
+\newcommand{\ms}{\mathscr}
+\DeclareMathOperator{\SPAN}{span}
+\DeclareMathOperator{\ESSSUP}{ess \, sup}
+\DeclareMathOperator{\eig}{eig}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\dd}{\delta}
+\newcommand{\ee}{{{\varepsilon}}}
+
+%%% The following commands make the "chi" character look better with subscripts
+
+\makeatletter
+\@ifdefinable\@latex@chi{\let\@latex@chi\chi}
+\renewcommand*\chi{{\@latex@chi\smash[t]{\mathstrut}}}
+\makeatletter
+
+\begin{document}
+
+\frontmatter
+
+\title{Spectral Properties of a Non-Compact Operator in Ecology}
+\author{Matt Reichenbach}
+\adviser{Professors Richard Rebarber and Brigitte Tenhumberg}
+\adviserAbstract{Richard Rebarber and Brigitte Tenhumberg}
+\major{Mathematics}
+\degreemonth{December}
+\degreeyear{2020}
+%%
+%% For most people the defaults will be correct, so they are commented
+%% out. To manually set these, just uncomment and make the needed
+%% changes.
+%% \college{Your college}
+%% \city{Your City}
+%%
+%% For most people the following can be changed with a class
+%% option. To manually set these, just uncomment the following and
+%% make the needed changes.
+%% \doctype{Thesis or Dissertation}
+%% \degree{Your degree}
+%% \degreeabbreviation{Your degree abbr.}
+%%
+%% Now that we know everything we need, we can generate the title page
+%% itself.
+%%
+\maketitle
+%%
+%% You have a maximum of 350 words for your abstract, which includes
+%% your title, name, etc.
+%%
+%% Required
+\input{./abstract}
+
+%% Optional
+%% \begin{copyrightpage}
+%% \end{copyrightpage}
+
+%% Optional
+\begin{dedication}
+    I dedicate this thesis to my parents, for always supporting me (no matter what hairbrained thing I decide to do).
+\end{dedication}
+
+%%%%%%%%%%%%%%%%%%%
+% Acknowledgments
+%%%%%%%%%%%%%%%%%%%
+\begin{acknowledgments}
+	There are many people without whom I never would have been able to write this thesis. First, I want to thank my advisors, Richard Rebarber and Brigitte Tenhumberg. 
+	
+	Second, I want to thank my family for their constant love and support.
+	
+	Finally, I give my heartfelt thanks to all of the friends I've made here in Lincoln.
+\end{acknowledgments}
+%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%
+% Grant Information
+%%%%%%%%%%%%%%%%%%%
+% \begin{grantinfo}
+%     % Add any grant info here
+% \end{grantinfo}
+
+%%%%%%%%%%%%%%%%%%%
+% ToC
+%%%%%%%%%%%%%%%%%%%
+\tableofcontents
+
+%%%%%%%%%%%%%%%%%%%
+% List of Figures
+%%%%%%%%%%%%%%%%%%%
+\listoffigures
+\listoftables
+
+%%%%%%%%%%%%%%%%%%%
+% Start of the document
+%%%%%%%%%%%%%%%%%%%
+\mainmatter
+
+%% Input each chapter as its own file here
+\input{An_IPM_For_Indeterminate_Growth/An_IPM_For_Indeterminate_Growth}
+\input{Spectral_Properties/Spectral_Properties}
+\input{Estimating_the_Spectral_Radius/Estimating_the_Spectral_Radius}
+\input{Simulations_of_a_Density-Dependent_Growth_Model/Simulations_of_a_Density-Dependent_Growth_Model}
+
+%% backmatter is needed at the end of the main body of your thesis to
+%% set up page numbering correctly for the remainder of the thesis
+\backmatter
+
+%% Start the correct formatting for the appendices
+%\appendix
+%%% Input each appendix here
+%\input{./appendix_a}
+
+% \bibliographystyle{alpha}  % or use  abbrv to abbreviate first names and use numerical indices
+\bibliographystyle{abbrv}  % or use  abbrv to abbreviate first names and use numerical indices
+%% Add your BibTex file here (don't include the .bib)
+\bibliography{references}
+
+\end{document}
+
+\endinput
