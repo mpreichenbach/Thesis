@@ -81,9 +81,9 @@ Next, we prove a similar result for $Q_n$ and $Q_{n, \dd}$; however, we will nee
 	\begin{align*}
 		||A^k b - A_\dd^k b||_1 & = \int_L^U \left| (A^k b - A^k_\dd b)(y) \right| dy \\
 		&\leq s_1^k \int_L^U (G^kb - G^k_\dd)(b)(y) dy \\
-		&= s_1^k \cdot ||b||_\infty \int_L^U \int_L^U (g(y, x_k) - g_\dd(y, x_k)) \int_L^U \cdots \int_L^U (g(x_2, x_{1}) - g_\dd(x_2, x_{1}) dx_1 \cdots dx_k dy \\
-		&=s_1^k \cdot ||b||_\infty \int_L^U \int_{U - \dd}^U g(y, x_k) \int_{U - \dd}^U g(x_k, x_{k - 1}) \int_{U - \dd}^U \cdots \int_{U - \dd}^U g(x_2, x_1) dx_1 \cdots dx_k dy \\
-		&= s_1^k \cdot ||b||_\infty \int_L^U g(y, x_k) \int_{U - \dd}^U g(x_k, x_{k - 1}) \int_{U - \dd}^U \cdots \int_{U - \dd}^U g(x_2, x_1) \underbrace{\int_{U-\dd}^U dx_1}_{= \dd} dx_2 \cdots dy \\
+%		&= s_1^k \cdot ||b||_\infty \int_L^U \int_L^U (g(y, x_k) - g_\dd(y, x_k)) \cdots \int_L^U (g(x_2, x_{1}) - g_\dd(x_2, x_{1}) dx_1 \cdots dx_k dy \\
+		&\leq s_1^k \cdot ||b||_\infty \int_L^U \int_{U - \dd}^U g(y, x_k) \cdots \int_{U - \dd}^U g(x_2, x_1) dx_1 \cdots dx_k dy \\
+		&= s_1^k \cdot ||b||_\infty \int_L^U g(y, x_k) \int_{U - \dd}^U g(x_k, x_{k - 1}) \int_{U-\dd}^U \cdots \underbrace{\int_{U-\dd}^U dx_1}_{= \dd} dx_2 \cdots dy \\
 		&\leq s_1^k ||b||_\infty \cdot \dd,
 	\end{align*}
 	where we applied Fubini-Tonelli to shift all integrals to the right from the third-to-last to the second-to-last line. In that penultimate expression, the integrals with respect to $x_2, \ldots, y$ are each less than or equal to, 1 by assumption on $g(y, x)$. Taking the limit $\dd \to 0$ thus implies that $||A^kb - A_\dd^b||_1 \to 0$, and hence that $Q_{n, \dd} \to Q_n$ pointwise.
