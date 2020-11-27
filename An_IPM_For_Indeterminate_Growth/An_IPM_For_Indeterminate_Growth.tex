@@ -6,15 +6,23 @@ In this thesis, we study operators which arise in \emph{integral projection mode
 
 IPMs are discrete-time, stage-structured models introduced in \cite{Easterling1998} and \cite{Ellner2006}; they generalize Leslie matrices (see \cite{Caswell2001}) by allowing for the structure variable to take on values in a continuum. Hence, IPMs are appropriate when vital rates depend on a continuous variable, such as the length or biomass of an individual. The paper \cite{Briggs2010} is a gentle introduction to constructing IPMs, whereas \cite{Ellner2016} is a more detailed overview.
 
-The IPMs we consider in this thesis are given by an integral operator $T:L^1 \to L^1$ where
+The IPMs we consider in this thesis are given by a linear integral operator $T:L^1 \to L^1$ where
 \[\varphi_{t+1}(y) = (T\varphi_t)(y) := \int_L^U k(y,x) \varphi_t(x) \, dx.\]
 Here, $\varphi_{t}(x)$ is the population density in stage $x$ at time $t$, the nonnegative kernel function $k(y,x)$ describes how the distribution of individuals in stage $x$ contributes to the individuals in stage $y$ in the next time step, and $L$ and $U$ are the lower- and upper-limits of the structure variable, respectively. We assume that the kernel function $k(y,x)$ can be decomposed as 
 \[k(y, x) = s(x) g(y,x) + b(y)f(x),\]
-where $s(x)$ is the survival probability of an individual in stage $x$, $g(y,x)$ gives the probability that a stage $x$ individual grows to a stage $y$ individual in one time step, $b(y)$ is the size distribution of newborns, and $f(x)$ gives the expected number of offspring that an average individual in stage $x$ will produce in one time step. We will refer to $s(x)g(y,x)$ as the \emph{survival and growth} subkernel, and $b(y)f(x)$ as the \emph{fecundity} subkernel. In practice, these functions are usually determined by fitting appropriate curves to population data.
+where $s(x)$ is the survival probability of an individual in stage $x$, $g(y,x)$ gives the probability that a stage $x$ individual grows to a stage $y$ individual in one time step, $b(y)$ is the size distribution of newborns, and $f(x)$ gives the expected number of offspring that an average individual in stage $x$ will produce in one time step. In practice, these functions are usually determined by fitting appropriate curves to population data, and we will give further assumptions in Section \ref{section:operatordef}.
 
-IPMs have found wide use in the biological sciences \cite{Ellner2016}. In the case that the kernel function $k(y,x)$ is continuous and positive on the square $[L, U]^2$, the associated IPM operator $T$ has its spectral radius as an eigenvalue, and the associated eigenvector is nonnegative (among other things) \cite{Ellner2006}. In biological terms, the spectral radius of the operator $T$ is the asymptotic growth rate of the population, which we will denote by $\lambda$, and the associated eigenvector $\psi$ is the stable stage distribution. The eigenvector $\psi$ is important in conservation biology, because by comparing the stable stage distribution with a population distribution in the field, a biologist can determine if the field population has reached the steady state. 
+IPMs have found wide use in the biological sciences \cite{Ellner2016}, and the the primary theoretical result, proved in \cite{Ellner2006} is the following:
 
-In the case that the kernel function $k(y, x)$ is bounded, $T$ is a compact operator on the relevant function space \cite{Ellner2006}. Compact operators can be uniformly approximated by matrices, which is one reason why an IPM with a compact operator is easier to work with. When a IPM operator is compact, ecologists can estimate the asymptotic growth rate of a population by approximating the infinite-dimensional operator with large matrices. The leading eigenvalues of these large matrices can thus give a good approximation of the asymptotic growth rate of the population, when modeled by an IPM.
+\begin{theorem}
+	Suppose that $T:L^1 \to L^1$ is the integral operator for an IPM with kernel $k(y, x)$. If $k(y, x)$ is positive and continuous on the square $[L,U]^2$, then the spectral radius $\lambda = r(T)$ is an eigenvalue of $T$ with eigenvector $\psi$. Additionally, $\psi$ is the only eigenvector of $T$ which can be scaled to be nonnegative, and for any initial nonnegative population $\varphi_0$, one has
+	\[\lim_{k \to \infty} \frac{T^k\varphi_0}{\lambda^k} = C \psi,\]
+	where $C>0$.
+\end{theorem}
+
+In biological terms, the spectral radius of the operator $T$ represents the asymptotic growth rate of the population, which we will denote by $\lambda$, and the associated eigenvector $\psi$ is the stable stage distribution of the population. The eigenvector $\psi$ is important in conservation biology, because by comparing the stable stage distribution with a population distribution in the field, a biologist can determine if the field population has reached the steady state. 
+
+In the case that the kernel function $k(y, x)$ is bounded, $T$ is a compact operator on the relevant function space \cite{Ellner2006}. Compact operators can be uniformly approximated by matrices, which is one reason why an IPM with a compact operator is easier to work with. When an IPM operator is compact, ecologists can estimate the asymptotic growth rate of a population by approximating the infinite-dimensional operator with large matrices. The leading eigenvalues of these large matrices can thus give a good approximation of the asymptotic growth rate of the population, when modeled by an IPM.
 
 The appropriate choice for the structure variable depends on the ecology of the species being modeled, or what data ecologists can collect. Some common examples of structure variables in IPMs are animal biomass, stem diameter of plants, the proportion of tissue infected by a disease, and the length or height of individuals. However, this choice has mathematical consequences: if individuals can decrease in size from one time step to the next, the IPM operator $T$ will be compact; if individuals cannot decrease in size, we prove in Section \ref{section:noncompactness} that $T$ will not be compact. In the former case, the results in \cite{Ellner2006} apply to the operator $T$.
 
@@ -32,11 +40,11 @@ IPMs are generalizations of matrix population models of the form
 \begin{align}
 	\vec{n}_{t+1} = A \vec{n}_t, \quad \vec{n}_0 \in \R^n, \label{eqn:system}
 \end{align}
-where $A$ is a matrix, and $\vec{n}_0$ a population vector, both with non-negative entries. The relevant spectral properties of the matrix $A$ in these models are guaranteed by the Perron-Frobenius Theorem (see \cite{Caswell2001}). Among other things, population matrices have the following three properties:
+where $A$ is an $n \times n$ matrix, and $\vec{n}_0$ is the initial population vector, both with non-negative entries. The relevant spectral properties of the matrix $A$ in these models are guaranteed by the Perron-Frobenius Theorem. Under biologically reasonable assumptions, population matrices have the following three properties (see \cite{Caswell2001}):
 \begin{enumerate}
 	\item \label{pf:radius} the spectral radius $r(A)$ is positive, and is an eigenvalue for $A$. The right and left eigenvectors $\vec{v}$, $\vec{v}^*$ associated to $r(A)$ are the only eigenvectors of $A$ which can be normalized to have all positive entries;
 	\item \label{pf:inequality} the operator $A$ has a ``spectral gap", meaning that
-	\[\max\{\sigma(A) \setminus \{\lambda\}\} < r(A);\]
+	\[\max\{\sigma(A) \setminus \{r(A)\}\} < r(A);\]
 	\item \label{pf:limit} for any $\vec{n}_0 \in \R^n$ with nonnegative entries, and $\lambda=r(A)$ the spectral radius of $A$ associated to the right and left eigenvectors $\vec{v}$, $\vec{v}^*$, we have $ \langle \vec{n}_0, \vec{v}^* \rangle > 0$, and 
 	\[\lim_{k \to \infty} \frac{A^k \vec{n}_0}{\lambda^k} = \langle \vec{n}_0, \vec{v}^* \rangle \vec{v},\]
 	where $\langle \cdot, \cdot \rangle$ denotes the dot product in $\R^n$.
@@ -44,7 +52,7 @@ where $A$ is a matrix, and $\vec{n}_0$ a population vector, both with non-negati
 
 In biological terms, property (\ref{pf:limit}) means that the population has a long-term growth rate of $\lambda = r(A)$, and the vector $\vec{v}$ is known as the \emph{stable stage distribution}. The vector $\vec{v}$ gives the relative proportions of each stage in the long-term population, or in other words, $\vec{v}$ captures the proportions one would expect to see in the population absent any external perturbations.
 
-The results in \cite{Krein1950} show that certain compact operators have property (\ref{pf:radius}), and many authors have since obtained generalizations of this result for wider classes of operators (for example, see the papers \cite{Anselone1974, Bonsall1958, Edmunds1972, Karlin1959, Kras1989, Lubben2009, Marek1967, Marek1970, Raghavan1965}, and \cite{Schaefer1960}). Various authors have also obtained results like (\ref{pf:inequality}) for a wider class of operators (see e.g. Chapter 12 of the book \cite{Kras1989}, and the references cited therein). In an appendix to the the paper \cite{Ellner2006}, the authors showed that certain compact operators arising from IPMs in mathematical ecology satisfy properties (\ref{pf:radius}), (\ref{pf:inequality}), and (\ref{pf:limit}).
+The results in \cite{Krein1950} show that certain compact operators have property (\ref{pf:radius}), and many authors have since obtained generalizations of this result for wider classes of operators (for example, see the papers \cite{Anselone1974, Bonsall1958, Edmunds1972, Karlin1959, Kras1989, Lubben2009, Marek1967, Marek1970, Raghavan1965}, and \cite{Schaefer1960}). Various authors have also obtained results like (\ref{pf:inequality}) for a wider class of operators (see e.g. Chapter 12 of the book \cite{Kras1989}, and the references cited therein). In an appendix to the paper \cite{Ellner2006}, the authors showed that certain compact operators arising from IPMs in mathematical ecology satisfy properties (\ref{pf:radius}), (\ref{pf:inequality}), and (\ref{pf:limit}).
 
 In this thesis, we consider a class of operators which come from IPMs recently constructed by mathematical ecologists, but for which the results in \cite{Ellner2006} do not apply. Specifically, the operators we consider are not compact. Out of the papers listed above, \cite{Bonsall1958, Edmunds1972, Karlin1959, Kras1989, Marek1967, Marek1970, Raghavan1965, Sawashima1964, Schaefer1960} considered operators $T:X \to X$ which are not necessarily compact. Instead, the authors impose topological conditions on the space $X$, or specific conditions on the operator $T$, in order to prove their results.  We note that IPMs are \emph{discrete-time} models, but results like (1)-(3) above are known for \emph{continuous-time} models as well; see Chapters 8-10 in the book \cite{Clement1987}. 
 
@@ -65,19 +73,15 @@ We study integral operators $T:L^1 \to L^1$ whose kernels take the form
 \end{align}
 Here, we will assume that the function $s(x)$ is continuous, increasing, and positive on $\Omega$, with 
 \[\sup_{x \in \Omega} \{s(x)\} < 1.\]
-This means that each individual has a chance of dying during each time step, and the positivity assumption means that any individual has a chance of surviving. We will assume that $b(y)$ is the offspring distribution, bounded almost-everywhere in $\Omega$ and positive almost-everywhere in the set $[L, x_b]$, where we allow (but do not require) that $b(y)$ can be zero for all $y > x_b$. In that case, $x_b$ is the largest size that an individual can attain in one time step after birth.
-
-Additionally, we suppose that there is some $x' \in [L, U)$ such that $f(x)$ is almost-everywhere bounded away from zero for $x \geq x'$. We have been unable to find an IPM in which these assumptions on $f(x)$ are not satisfied, and our results apply just as well when $f(x) > 0$ throughout $\Omega$ (in this case, one can take $x' = L$).
-
-Taken together, these assumptions on $s(x)$, $b(y)$, and $f(x)$ imply the existence of positive numbers, $s_0$, $s_1$, $b_1$, and $f_0$, $f_1$ such that
+This means that each individual has a chance of surviving each time step, but also a chance of dying. We will assume that $b(y)$ is the offspring distribution, bounded almost-everywhere in $\Omega$ and positive almost-everywhere in the set $[L, x_b]$, for some $x_b \in (L,U]$, where we allow (but do not require) that $b(y)$ can be zero for all $y > x_b$. In that case, $x_b$ is the largest size that an individual can attain in one time step after birth. Additionally, we suppose that there is some $x' \in [L, U)$ such that $f(x)$ is almost-everywhere bounded away from zero for $x \geq x'$. We have been unable to find an IPM in which these assumptions on $f(x)$ are not satisfied, and our results apply just as well when $f(x) > 0$ throughout $\Omega$ (in this case, one can take $x' = L$). Taken together, these assumptions on $s(x)$, $b(y)$, and $f(x)$ imply the existence of positive numbers $s_0$, $s_1$, $b_1$, and $f_0$, $f_1$ such that
 \begin{align}
 	&0 < s_0 \leq s(x) \leq s_1 < 1, \quad \text{for almost every } x \in \Omega, \label{eqn:s(x)bounds} \\
-	&0 < b(y) \leq b_1 < \infty, \quad \text{for almost every } y \in \Omega, \label{eqn:b(y)bounds} \\
+	&0 < b(y) \leq b_1 < \infty, \quad \text{for almost every } y \in [x_b, U], \label{eqn:b(y)bounds} \\
 	&0 < f_0 \leq f(x) \leq f_1 < \infty, \quad \text{for almost every } x \in [x', U] \label{eqn:f(x)bounds}
 \end{align}
 It will be convenient to assume that $s_1$, $b_1$, $f_1$ are the least such values, and that $s_0$, $f_0$ are the greatest such values.
 
-We assume that $g(y,x)$ is nonnegative on $[L,U)^2$ (note the open right endpoint), and also that for each $x \in [L,U)$,
+We assume that $g(y,x)$ is nonnegative on $[L,U)^2$, and also that for each $x \in [L,U)$,
 \begin{align}\int_L^U g(y,x) \, dy = 1. \label{eqn:gyx=1}\end{align}
 The assumption (\ref{eqn:gyx=1}) means that $g(y,x)$ is a probability distribution for each fixed $x \in [L, U)$. In biological terms, this means that a size $x$ individual will have size $y \in [L,U)$ in the following time step with probability $g(y, x)$. We will often refer to $g(y,x)$ as the \emph{growth subkernel} of $T$.
 
@@ -90,8 +94,8 @@ and in this case we will say that $g(y,x)$ is ``zero below the diagonal". When t
 Taken together, assumptions (\ref{eqn:gyx=1}) and (\ref{eqn:gyx=0}) imply that $g(y,x)$ is unbounded in any neighborhood of the point $(U, U) \in \R^2$, which is why we assume $g(y,x)$ is defined on $[L,U)^2$, rather than $[L,U]^2$. 
 
 \begin{example}
-	We have included Figure \ref{fig:growth-kernel-plot} below as an example of an unbounded growth kernel from \cite{Vindenes2014}; they include an extra parameter $z$ for temperature, which we set to 10.34, the mean of the time series they consider. The function in Figure \ref{fig:growth-kernel-plot} is given by
-	\[g(y, x) = \left\{ \begin{array}{lc} \frac{\rho(y, x)}{\int_x^U \rho(y, x) \, dy}, & y \geq x, \\ 0, & y < x \end{array} \right. ,\]
+	We have included Figure \ref{fig:growth-kernel-plot} below as an example of an unbounded growth kernel from \cite{Vindenes2014}; they include an extra parameter $z$ for temperature, which we set to $10.34^\circ \, \text{C}$, the mean of the time series they consider. The function in Figure \ref{fig:growth-kernel-plot} is given by
+	\[g(y, x) = \left\{ \begin{array}{lc} \frac{\rho(y, x)}{\int_x^U \rho(y, x) \, dy}, & y > x, \\ 0, & y \leq x \end{array} \right. ,\]
 	where
 \begin{align}
 	\rho(y, x) &:= \frac{1}{\sqrt{2 \pi}(y - x) v(x)} \exp \left( - \frac{(\ln(y - x) - \mu(x))^2}{2 v(x)} \right), \label{eqn:rhodef}\\
@@ -120,17 +124,27 @@ In \cite{Ellner2006}, the IPM kernel is strictly positive and continuous, and he
 		g(y, x) &> 0, \quad \text{for a.e. } (y, x) \text{ such that } x < y < \eta(x); \label{eqn:M3}
 	\end{align}
 	\item[(\textbf{R})] there exists an $\ee_1 > 0$ and a closed rectangle $R \subseteq [L, U)^2$ of the form
-	\[R := [U - \ee_1, U] \times [t_1, t_2],\]
-	such that for  $L \leq t_1 \leq t_2 \leq y$, and $g(y, x) > 0$ almost-everywhere in $R$;
+	\[R := [U - \ee_1, U] \times [x_1, x_2],\]
+	where $L \leq x_1 \leq x_2 \leq y$, such that $g(y, x) > 0$ almost-everywhere in $R$;
 	\item[(\textbf{S})]  there is some $\ee_2 > 0$ such that $s(x) \equiv s_1$ for $x \in [U - \ee_2, U]$.
 \end{enumerate} 
 When constructing an IPM kernel from data for a specific population, one often fits the average growth function, which gives the mean expected size for an individual of size $x$ to grow to in one time step. Depending on the form of $g(y, x)$, one can usually take take this average growth function to be $\eta$, or a related function like in the example above where $\mu$ satisfies assumption (\textbf{M}). Assumption (\textbf{R}) looks onerous, but if a growth kernel $g(y, x)$ is obtained by fitting positive probability distributions to data, it will satisfy assumption (\textbf{R}). Although (\textbf{S}) is a technical condition we need to prove a result, we believe it is reasonable because the operators in \cite{Ohlberger2020, Stubberud2019, Vindenes2014, Vindenes2015} all satisfy it.
 
 For notational convenience, we will sometimes write $T:L^1 \to L^1$ in terms of its components
 \[T = GS + bF,\]
-where $G:L^1 \to L^1$ is the integral operator with kernel $g(y,x)$, $S:L^1 \to L^1$ is multiplication by $s(x)$, $F:L^1 \to \R$ is the fecundity functional defined by
-\[\varphi \mapsto \int_L^U f(t) \varphi(t) \, dt,\]
-and $b$ is the offspring distrubition. We will call $G$ the growth operator, the composition $GS$ as the ``growth and survival" operator, and $bF$ the ``fecundity" operator.
+where $G:L^1 \to L^1$ is the integral operator defined by
+\begin{equation}
+	(G\varphi)(y) := \int_L^U g(y, x) \varphi(x) \, dx, \label{def:growthop}
+\end{equation} 
+$S:L^1 \to L^1$ is multiplication by $s(x)$:
+\begin{equation}
+(S\varphi)(x) := s(x) \varphi(x), \label{def:survop}
+\end{equation}
+$F:L^1 \to \R$ is the fecundity functional defined by
+\begin{equation}
+F\varphi = \int_L^U f(x) \varphi(x) \, dx, \label{def:fecfun}
+\end{equation}
+and $b=b(y)$ is the offspring distrubition. We will call $G$ the growth operator, the composition $GS$ as the ``growth and survival" operator, and $bF$ the ``fecundity" operator. It is straightforward to show that $G$ and $S$, are bounded operators, and that $F$ is a bounded linear functional.
 
 \section{Mathematical Preliminaries} \label{section:mathprelims}
 
@@ -154,7 +168,7 @@ Here, $I$ is the identity operator. Additionally, we denote the \emph{spectral r
 \[r(T) := \sup \{ |z| \mid z \in \sigma(T)\}.\]
 The \emph{peripheral spectrum} $\sigma_p(T)$ are those $z \in \sigma(T)$ such that $|z| = r(T)$. 
 
-Another subset of $\sigma(T)$ which will be useful to us is known as the \emph{essential spectrum}; we will denote this subset by $\sigma_e(T)$. There many definitions of the essential spectrum in the literature, but we use the one given in \cite{Browder1961} and \cite{Edmunds1972}:
+Another subset of $\sigma(T)$ which will be useful to us is known as the \emph{essential spectrum}; we will denote this subset by $\sigma_e(T)$. There are many definitions of the essential spectrum in the literature, but we use the one given in \cite{Browder1961} and \cite{Edmunds1972}:
 
 \begin{definition}
 	The \emph{essential spectrum} $\sigma_e(T)$ of an operator $T$ is the collection of complex numbers $z \in \sigma(T)$ such that at least one of the following conditions holds:
@@ -188,7 +202,7 @@ For more information concerning complexifications of real vector spaces and oper
 
 To compute spectral radii, we will make use of Gelfand's formula, which is the statement that
 \begin{align}
-	r(T) = \lim_{n \to \infty} ||T||^{1/n}. \label{eqn:gelfand}
+	r(T) = \lim_{n \to \infty} ||T^n||^{1/n}. \label{eqn:gelfand}
 \end{align}
 The \emph{resolvent} of $T$ is the function $R(z, T):= (zI - T)^{-1}$, which is well-defined in the \emph{resolvent set} $\rho(T):= \C \setminus \sigma(T)$. It turns out that $R(z, T)$ is a holomorphic function in $\rho(T)$, and in the case that $|z| > r(T)$, we can write $R(z, T)$ as a so-called \emph{Neumann series} given by
 \begin{align}
@@ -213,13 +227,11 @@ In order to study the essential spectrum $\sigma_e(T)$, we will make use of the 
 		\item For any point $x_0 \in X$, we have $\beta(V+x_0) = \beta(V)$.
 	\end{enumerate}
 \end{definition}
-For further useful properties that $\beta$ satisfies, see \cite{Akhmerov1992}. There are other commonly used MNC's, but the ball-MNC $\beta$ is especially useful for us because there is a formula for $\beta(V)$ when  $V \subseteq L^p(\R)$, $1 \leq p \leq \infty$. Let $X$ be one of these spaces, and $V \subseteq X$ any subset. Then we have that
+For further useful properties that $\beta$ satisfies, see \cite{Akhmerov1992}. There are other commonly used MNC's, but the ball-MNC $\beta$ is especially useful for us because there is a formula for $\beta(V)$ when $V \subseteq L^p(\R)$, for $1 \leq p \leq \infty$ (see \cite{Akhmerov1992}):
 \begin{align}
 	\beta(V) = \frac 12 \lim_{\delta \to 0} \sup_{\varphi \in V} \sup_{0<\tau \leq \delta} ||\varphi - \varphi_\tau||_X \label{eqn:betaformula}
 \end{align}
-where $\varphi_\tau(t) := \varphi(t + \tau)$.
-
-We note that the domain of the functions we consider is $\Omega = [L,U]$, but we can apply (\ref{eqn:betaformula}) by extending their domain to all of $\R$ by setting $\varphi(x) = 0$ for $x$ outside $\Omega$, for every $\varphi \in L^1(\Omega)$.
+where $\varphi_\tau(t) := \varphi(t + \tau)$. However, we will only consider the case when $X = L^1(\Omega)$, where $\Omega = [L, U]$. Note that we can apply (\ref{eqn:betaformula}) by extending the domains of the functions in $L^1(\Omega)$ to all of $\R$ by setting $\varphi(x) = 0$ for $x$ outside $\Omega$, for every $\varphi \in L^1(\Omega)$.
 
 There is a formula for $r_e(T)$, first given in \cite{Nussbaum1970}, which makes use of the ball-MNC $\beta$. Letting $\ms U \subseteq X$ denote the unit ball in the space $X$, and writing $\beta(T) := \beta(T(\ms U))$, we have that
 \begin{align}

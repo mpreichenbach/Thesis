@@ -5,13 +5,13 @@
 In this section, we will prove some fundamental facts about the operator $T:L^1 \to L^1$ which will be useful in demonstrating many of the results that follow. In particular, at the end of Section \ref{section:noncompactness} we will prove that no power $T^k$ is weakly compact (and in particular not compact) under the assumption (\ref{eqn:gyx=0}). This indicates that we will not be able to use the Krein-Rutman theorem, or its generalizations given in \cite{Kras1989}, to obtain results about the spectral properties of $T$.
 
 \begin{lemma} \label{th:norm=1}
-	Let $G:L^1 \to L^1$ be the growth operator, and consider the standard cone $K \subseteq L^1$. Then for any $\varphi \in K$, we have that $||G \varphi||_1 = ||\varphi||_1$.
+	Let $G:L^1 \to L^1$ be the growth operator defined in \eqref{def:growthop}, and consider the standard cone $K \subseteq L^1$. Then for any $\varphi \in K$, we have that $||G \varphi||_1 = ||\varphi||_1$.
 \end{lemma}
 
 \begin{proof}
 	This is a quick application of Fubini-Tonell:
 	\begin{align*}
-		||G\varphi||_1 &= \int_L^U \int_L^U g(y,x) \varphi(x) \, dx = \int_L^U \varphi(x) \underbrace{\int_L^U g(y,x) \, dx}_{=1, \, \text{a.e. } x} \, dy = ||\varphi||_1,
+		||G\varphi||_1 &= \int_L^U \int_L^U g(y,x) \varphi(x) \, dx \, dy = \int_L^U \varphi(x) \underbrace{\int_L^U g(y,x) \, dx}_{=1, \, \text{a.e. } x} \, dy = ||\varphi||_1,
 	\end{align*}
 	where the last equality comes from the fact that $\varphi \geq 0$.
 \end{proof}
@@ -147,22 +147,20 @@ To prove Theorem \ref{th:notweaklycompact}, we use the fact that weak compactnes
 We will use the following characterization of weakly sequentially compact sets in $L^1$, which is Theorem IV.8.11 in \cite{Dunford1958}:
 
 \begin{theorem} \label{th:L1weakseq}
-	If the family $\ms F \subseteq L^1(S, \sigma, \mu)$ is weakly sequentially compact, then
+	The family $\ms F \subseteq L^1(\Omega)$ is weakly sequentially compact if and only if
 	\begin{align}
 		\lim_{\mu(E) \to 0} \int_E h(s) \, d\mu =0 \label{eqn:weakseq}
 	\end{align}
-	uniformly for $h \in \ms F$. If $\mu(S) < \infty$, then this condition is sufficient for $\ms F$ to be weakly sequentially compact.
+	uniformly for $h \in \ms F$, where $\mu$ is the Lebesgue measure and $E \subset \Omega$ is any measurable subset.
 \end{theorem}
-
-For our purposes, the set $S$ is the closed and bounded interval $\Omega = [L,U] \subseteq \R$, which has finite Lebesgue measure; hence, condition (\ref{eqn:weakseq}) is necessary and sufficient to determine weakly sequentially compact collections of $L^1(\Omega)$.
 
 We now have all the ingredients needed to prove the main theorem of this section:
 
 \begin{proof}[Proof of Theorem \ref{th:notweaklycompact}]
-	Let $\ms  U \subseteq L^1$ be the closed unit ball. Fix $k \geq 1$, and define $\ms F:=T^k(\ms U) \subseteq L^1$. We note that (\ref{eqn:weakseq}) holds for any fixed $h \in \ms F$; however, we will show that this limit is not uniform on $\ms F$. To this end, put $\dd_n:= \frac 1n (U-L)$ for each $n$, and define $E_n:=[U-\dd_n,U]$; then $\mu(E_n) \to 0$.
+	Let $\ms  U \subseteq L^1$ be the closed unit ball. Fix $k \geq 1$, and define $\ms F:=T^k(\ms U) \subseteq L^1$. We note that (\ref{eqn:weakseq}) holds for any fixed $h \in \ms F$; however, we will show that this limit is not uniform on $\ms F$. To this end, put $\dd_n:= \frac 1n (U-L)$ for each $n \in \N$, and define $E_n:=[U-\dd_n,U]$; then $\mu(E_n) \to 0$.
 	
 	Further, define the functions
-	\[h_n:= \frac{1}{\dd_n} \cdot \chi_{E_n}(x)\]
+	f\[h_n:= \frac{1}{\dd_n} \cdot \chi_{E_n}(x)\]
 	for each $n \geq 1$, where $\chi_{E_n}$ is the characteristic function on $E_n$. Note that
 	\[||h_n||_1 = \frac{1}{\dd_n} \int_L^U \chi_{E_n}(x) \, dx = \frac{1}{\dd_n} \int_{U-\dd_n}^U dx = \frac{1}{\dd_n} \cdot \dd_n = 1,\]
 	for each $n$. Hence, each $h_n \in \ms U$ and thus $T^kh_n \in \ms F$. Also, Corollary \ref{th:corollarytonorm=1} implies that $||G^k h_n||_1 = 1$, for each $n$.
@@ -177,7 +175,7 @@ We now have all the ingredients needed to prove the main theorem of this section
 
 We note here that the growth operator $G$ is what makes $T^k$ non-compact. By a similar argument as in the previous proof, one can show that the limit (\ref{eqn:weakseq}) is not uniform on the set $G^k(\ms U)$ for any $k \geq 1$.
 
-Theorem \ref{th:notweaklycompact} and its corollary shows that neither the Krein-Rutman theorem, nor its most direct generalization (see Theorem 9.4 in the book \cite{Kras1989}) guarantee that $T:L^1 \to L^1$ has a positive eigenvector corresponding to its spectral radius. 
+Theorem \ref{th:notweaklycompact} and its corollary show that neither the Krein-Rutman theorem, nor its most direct generalization (see Theorem 9.4 in the book \cite{Kras1989}) guarantee that $T:L^1 \to L^1$ has a positive eigenvector corresponding to its spectral radius. 
 
 However, all is not lost: the operator $T$ does have an eigenvector corresponding to its spectral radius, which we prove in Section \ref{section:mainresults}. Before we will be able to do that, we will need to show that $T$ is strictly nonsupporting, and that $\lambda = r(T)$ is a pole of the resolvent $R(z, T)$.
 
@@ -185,7 +183,7 @@ However, all is not lost: the operator $T$ does have an eigenvector correspondin
 
 Our goal in this section will be to prove that the IPM operator $T$ is \emph{strictly nonsupporting} (see Definition \ref{def:nonsup}). 
 
-We will be able to prove something stronger: for the IPM operator $T$, the integer $p$ in Definition \ref{def:nonsup} will actually be independent of the choice of the nonzero $\varphi \in K$. Also, since we only consider the case when $X = L^1$, showing that $T^n\varphi >0$ almost-everywhere will be sufficient to showing that $T$ is strictly nonsupporting. Hence, the main theorem of this section is:
+We will be able to prove a stronger result: for the IPM operator $T$, the integer $p$ in Definition \ref{def:nonsup} will actually be independent of the choice of the nonzero $\varphi \in K$. Also, since we only consider the case when $X = L^1$, showing that $T^n\varphi >0$ almost-everywhere will be sufficient to showing that $T$ is strictly nonsupporting. Hence, the main theorem of this section is:
 
 \begin{theorem} \label{th:nonsup}
 	Suppose that the operator $T = GS + bF$ satisfies the assumptions (\textbf{M}) and (\textbf{R}). Then there is a $p \in \N$ such that for every nonzero $\varphi \in K \subseteq L^1$ and $n \geq p$, the element $T^n \varphi$ is positive almost everywhere in $\Omega$.
@@ -203,16 +201,16 @@ From this, we get the quick corollary:
 	since $T^n\varphi$ is positive almost-everywhere, and $\varphi$ is positive on a set of positive measure. Therefore, $T$ is strictly nonsupporting since the nonzero functions $\varphi$, $\varphi^*$ were arbitrary, and so was the choice of $n \geq p$. 
 \end{proof}
 
-To prove Theorem \ref{th:nonsup}, we will first give some lemmas:
+To prove Theorem \ref{th:nonsup}, we will first give some lemmas; the first uses the function $\eta:\Omega \to \Omega$ defined in assumption (\textbf{M}).
 
 \begin{lemma}
-	Suppose $\varphi(x)>0$ almost-everywhere in $[L, \hat x]$. Then $(G\varphi)(y) > 0$ for almost-every $y \in [L, \eta(\hat x)]$.
+	Suppose $\varphi(x)>0$ almost-everywhere in $[L, \hat x]$, for some $\hat x \in (L, U]$. Then $(G\varphi)(y) > 0$ for almost-every $y \in [L, \eta(\hat x)]$.
 \end{lemma}
 
 \begin{proof}
 	Since we only need to prove the statement for a.e. $y \in [L, \eta(\hat x)]$, we can assume without loss of generality that $y \in [L, \eta(\hat x)]$ satisfies the inequalities \eqref{eqn:M2} - \eqref{eqn:M3}.
 	
-	First, suppose that $y \in (L, \eta(\hat x))$; in this case, assumption \eqref{eqn:M3} implies that $g(y, x) >0$ for $(y, x) \in E:=\{y\} \times [L, \hat x]$. Thus, $g(y, x) \varphi(x)>0$ on $E$ as well, so
+	First, suppose that $y \in (L, \eta(\hat x))$; in this case, assumption \eqref{eqn:M3} implies that $g(y, x) >0$ for $(y, x) \in E:=\{y\} \times [L, \hat x]$. Thus, $g(y, x) \varphi(x)>0$ a.e. on $E$ as well, so
 	\[(G\varphi)(y) = \int_L^U g(y, x) \varphi(x) dx \geq \int_L^{\hat x} g(y, x) \varphi(x) \, dx >0, \]
 	as claimed.
 	
@@ -287,13 +285,13 @@ We begin with a lemma about the MNC $\beta$, which follows from properties liste
 	
 \end{proof}
 
-The following fact about the IPM operator $T:L^1 \to L^1$ is a result of Proposition 1 in \cite{Schaefer1960}:
+Proposition 1 in \cite{Schaefer1960} states that $r(A) \in \sigma(A)$ for any operator $A:X \to X$ which is positive with respect to a normal cone $K$. Since the standard cone $K \subset L^1$ is normal (see \cite{Kras1989}), we get the following lemma for the IPM operator $T$:
 
 \begin{lemma} \label{th:lambdainspectrum}
 	The spectral radius $\lambda = r(T)$ is an element of the spectrum $\sigma(T)$.
 \end{lemma}
 
-We now turn our attention to the growth operator $G:L^1 \to L^1$. The following lemmas are interesting because they demonstrate that the assumption (\ref{eqn:gyx=1}) allows us to compute upper bounds for $\beta(G^n)$, whereas (\ref{eqn:gyx=0}) allows us to compute lower bounds. We again denote $\ms U \subseteq L^1$ to be the closed unit ball, and we extend the functions under consideration from their domain $\Omega=[L,U]$ to all of $\R$ by making them identically equal to zero outside $\Omega$.
+We now turn our attention to the growth operator $G:L^1 \to L^1$. The following lemmas are interesting because they demonstrate that the assumption (\ref{eqn:gyx=1}) allows us to compute upper bounds for $\beta(G^n)$, whereas (\ref{eqn:gyx=0}) allows us to compute lower bounds. We again denote $\ms U \subseteq L^1$ to be the closed unit ball.
 
 \begin{lemma} \label{th:bgbounds}
 	Suppose $G:L^1 \to L^1$ satisfies (\ref{eqn:gyx=1}). Then for all $k \geq 1$, we have that
@@ -307,11 +305,11 @@ We now turn our attention to the growth operator $G:L^1 \to L^1$. The following 
 		&\varphi(t) = \int_{-\infty}^\infty g(t,x) (G^{k-1}\psi)(x) \, dx \\
 		&\varphi_\tau(t) := \varphi(t+\tau) = \int_{-\infty}^\infty g(t+\tau, x) (G^{k-1}\psi)(x) \, dx.
 	\end{align*}
-	Also, Corollary \ref{th:corollarytonorm=1} implies that $||G^n \psi||_1 = 1$ for all $n$, in particular for $n = k$ and $n = k-1$. Of course, in the case of $k = 1$, this is merely saying that $||G^0\psi||_1 = ||\psi||_1 = 1$. Then
+	Also, Corollary \ref{th:corollarytonorm=1} implies that $||G^n \psi||_1 = 1$ for all $n$, in particular for $n = k$ and $n = k-1$. Of course, in the case of $k = 1$, this is merely saying that $||G^0\psi||_1 = ||\psi||_1 = 1$. Then for $k > 1$, we have
 	\begin{align*}
-		||\varphi-\varphi_\tau||_1 &= \int_{-\infty}^\infty \left| \int_{-\infty}^\infty (g(t,x) - g(t+\tau,x)) (G^{k-1}\psi)(x) \, dx \right| \, dt \\
-		&\leq \int_{-\infty}^\infty |(G^{k-1}\psi)(x)| \int_{-\infty}^\infty |g(t,x)-g(t+\tau,x)| \, dt \, dx \\
-		&\leq \int_{-\infty}^\infty |(G^{k-1}\psi)(x)| \left( \int_{-\infty}^\infty |g(t,x)| \, dt + \int_{-\infty}^\infty |g(t+\tau,x)| \, dt \right) \, dx \\
+		||\varphi-\varphi_\tau||_1 &= \int_{-\infty}^\infty \left| \int_{-\infty}^\infty (g(y,x) - g(y+\tau,x)) (G^{k-1}\psi)(x) \, dx \right| \, dy \\
+		&\leq \int_{-\infty}^\infty |(G^{k-1}\psi)(x)| \int_{-\infty}^\infty |g(y,x)-g(y+\tau,x)| \, dy \, dx \\
+		&\leq \int_{-\infty}^\infty |(G^{k-1}\psi)(x)| \left( \int_{-\infty}^\infty |g(y,x)| \, dy + \int_{-\infty}^\infty |g(y+\tau,x)| \, dy \right) \, dx \\
 		&= 2 \cdot \int_{-\infty}^\infty |(G^{k-1}\psi)(x)| \, dx \\
 		&= 2.
 	\end{align*}
@@ -403,34 +401,34 @@ Our next lemma shows an important relationship between the ordinary spectral rad
 	
 \end{proof}
 
-The next step in showing that $r(T) \in \sigma(T)$ is a pole of $R(z, T)$ is showing that there is some $t \in \sigma(T)$ such that $|t| > s_1 = r_e(T)$; the following lemmas and corollary accomplish this.
+The next step in showing that $r(T) \in \sigma(T)$ is a pole of $R(z, T)$ is showing that there is some $z \in \sigma(T)$ such that $|z| > s_1 = r_e(T)$; the following lemmas and corollary accomplish this.
 
 \begin{lemma} \label{th:eigenvector}
-	Suppose that $t \in \rho(GS)$, the resolvent set of $GS$, and define $\psi:= (t I - GS)^{-1}b$. If
+	Suppose that $z \in \rho(GS)$, the resolvent set of $GS$, and define $\psi:= (z I - GS)^{-1}b$. If
 	\begin{align}
-	F \psi = F(t I - GS)^{-1}b = 1, \label{eqn:evecformula}
+	F \psi = F(z I - GS)^{-1}b = 1, \label{eqn:evecformula}
 	\end{align}
-	then $\psi$ is an eigenvector for $T$ with eigenvalue $t$.
+	then $\psi$ is an eigenvector for $T$ with eigenvalue $z$.
 	
-	Conversely, if $v$ is an eigenvector for $T$ with eigenvalue $t \in \rho(GS)$, then $v$ is in the span of $\psi$, and $F\psi = 1$.
+	Conversely, if $v$ is an eigenvector for $T$ with eigenvalue $z \in \rho(GS)$, then $v$ is in the span of $\psi$, and $F\psi = 1$.
 \end{lemma}
 
 \begin{proof}
-	Suppose $t \in \rho(GS)$, and define $\psi$ as above. Then the condition $F\psi = 1$ implies that
-	\[\psi = (t I - GS)^{-1} b (F \psi),\]
+	Suppose $z \in \rho(GS)$, and define $\psi$ as above. Then the condition $F\psi = 1$ implies that
+	\[\psi = (z I - GS)^{-1} b (F \psi),\]
 	which can be re-arranged to yield
-	\[t \psi = GS \psi + bF \psi = T \psi.\]
-	Hence, $\psi$ is an eigenvector of $T$ with eigenvalue $t$.
+	\[z \psi = GS \psi + bF \psi = T \psi.\]
+	Hence, $\psi$ is an eigenvector of $T$ with eigenvalue $z$.
 	
-	Conversely, suppose that $v$ is an eigenvector for $T$ with eigenvalue $t \in \rho(GS)$. Then we can write
-	\[T v = (GS + bF)v = t v,\]
+	Conversely, suppose that $v$ is an eigenvector for $T$ with eigenvalue $z \in \rho(GS)$. Then we can write
+	\[T v = (GS + bF)v = z v,\]
 	which we can re-arrange to get
 	\begin{align}
-		v = (t I - GS)^{-1} b (F v). \label{eqn:videntity}
+		v = (z I - GS)^{-1} b (F v). \label{eqn:videntity}
 	\end{align}
-	This shows that $v$ is in the span of $(t I - GS)^{-1}b$, and also that $F v \neq 0$ since $v$ is an eigenvector. Applying $F$ to both sides of (\ref{eqn:videntity}) and dividing by $F v$, we get
-	\[F(t I - GS)^{-1}b = 1,\]
-	which completes the proof.
+	This shows that $v$ is in the span of $(z I - GS)^{-1}b$, and also that $F v \neq 0$ since $v$ is an eigenvector. Applying $F$ to both sides of (\ref{eqn:videntity}) and dividing by $F v$, we get
+	\[F(z I - GS)^{-1}b = 1,\]
+	as claimed.
 	
 \end{proof}
 
@@ -453,7 +451,7 @@ The next step in showing that $r(T) \in \sigma(T)$ is a pole of $R(z, T)$ is sho
 \begin{proof}
 	The first claim follows from the fact that the mapping $t \mapsto (t I-GS)^{-1}$ is continuous for $t$ in the resolvent set of $GS$, and the fact that $F$ is continuous.
 	
-	Next, we prove that $P$ is strictly decreasing. Take $t_1$, $t_2 \in (s_1, \infty)$, such that $t_1 < t_2$. By Lemma \ref{th:growingbig}, there is some $n \geq 1$ such that $(GS)^n d>0$ on a subset of positive measure in $[x',U]$. Recall that $f(x) \geq f_0 >0$ for $x \in [x',U]$, and this implies that $F(GS)^k d>0$ for any $k \geq n$. 
+	Next, we prove that $P$ is strictly decreasing. Take $t_1$, $t_2 \in (s_1, \infty)$, such that $t_1 < t_2$. By Lemma \ref{th:growingbig}, there is some $n \geq 1$ such that $(GS)^n b>0$ on a subset of positive measure in $[x',U]$. Recall that $f(x) \geq f_0 >0$ for $x \in [x',U]$, and this implies that $F(GS)^k d>0$ for any $k \geq n$. 
 	
 	Recall that whenever $t>s_1 = r(GS)$, we can write $(t I-GS)^{-1}$ as a Neumann series; thus, we can write $F(t_1 I - GS)^{-1}b$ as a series of nonnegative terms, and split it into two pieces. The first piece will consist of terms which may be zero, those with indices less than $n$; the second piece, with indices greater than or equal to $n$, will consist exclusively of positive terms. To this end, we have
 	\begin{align*}
@@ -463,7 +461,7 @@ The next step in showing that $r(T) \in \sigma(T)$ is a pole of $R(z, T)$ is sho
 		&> \frac{1}{t_2} \sum_{k=0}^{n-1} \frac{F(GS)^kd}{t_2^k} + \frac{1}{t_2} \sum_{k=n}^\infty \frac{F(GS)^kd}{t_2^k} = \frac{1}{t_2} \sum_{k=0}^\infty \frac{F(GS)^kd}{t_2^k} \\
 		&=F(t_2I-GS)^{-1}b =P(t_2),
 	\end{align*}
-	where the ``$\geq$" line above is a result of $(GS^k) d$ possibly being in the kernel of $F$ when $k \leq n-1$, and the strict inequality comes from the fact $(GS^k)d$ cannot be in the kernel of $F$ for $k \geq n$. Therefore, $P(t)$ is strictly decreasing on $(s_1, \infty)$ since $t_1 < t_2$ implies that $P(t_1) > P(t_2)$.
+	where the ``$\geq$" line above is a result of $(GS)^k b$ possibly being in the kernel of $F$ when $k \leq n-1$, and the strict inequality comes from the fact $(GS^k)d$ cannot be in the kernel of $F$ for $k \geq n$. Therefore, $P(t)$ is strictly decreasing on $(s_1, \infty)$ since $t_1 < t_2$ implies that $P(t_1) > P(t_2)$.
 	
 	Next, we will show that 
 	\[\lim_{t \to \infty} F(t I - GS)^{-1} \varphi = 0 \]
@@ -513,11 +511,11 @@ The next step in showing that $r(T) \in \sigma(T)$ is a pole of $R(z, T)$ is sho
 \end{proof}
 
 \begin{corollary} \label{th:Pis1}
-	For $T$ satisfying all assumptions of the previous lemma, there exists a unique real-valued $t > r_e(T)$ such that $P(t) = 1$.
+	For $T$ satisfying all assumptions of the previous lemma, there exists a unique real-valued $t_0 > r_e(T)$ such that $P(t_0) = 1$.
 \end{corollary}
 
 \begin{proof}
-	Recall from Lemma \ref{th:reiss1} that $s_1 = r_e(T)$ when $g(y,x)$ is zero below the diagonal. Then properties \eqref{continuous}, \eqref{ptozero}, and \eqref{ptoinfty} of Lemma \ref{th:Pmufacts} guarantee the existence of such a $t$, and property (\ref{decreasing}) guarantees its uniqueness.
+	Recall from Lemma \ref{th:reiss1} that $s_1 = r_e(T)$ when $g(y,x)$ is zero below the diagonal. Then properties \eqref{continuous}, \eqref{ptozero}, and \eqref{ptoinfty} of Lemma \ref{th:Pmufacts} guarantee the existence of such a $t_0$, and property (\ref{decreasing}) guarantees its uniqueness.
 	
 \end{proof}
 
@@ -527,14 +525,12 @@ The next step in showing that $r(T) \in \sigma(T)$ is a pole of $R(z, T)$ is sho
 
 \begin{proof}
 	Corollary \ref{th:esrofGS} and Corollary \ref{th:Pis1} guarantee the existence of a unique $\lambda_0 > r_e(GS) = s_1$ such that
-	\[P(\mu) = F(\lambda_0 I - GS)^{-1} d = 1.\]
+	\[P(\mu) = F(\lambda_0 I - GS)^{-1} b = 1.\]
 	Lemma \ref{th:eigenvector} then implies that $\lambda_0$ is an eigenvalue of $T$ with eigenvector $\psi = (\lambda_0 I - GS)^{-1} b$; hence, $\lambda_0 \in \sigma(T)$ and $\lambda_0 > s_1$, as claimed.
 	
 \end{proof}
 
 Note that the purpose of conclusion \eqref{ptoinfty} of Lemma \ref{th:Pmufacts} in proving Lemma \ref{th:thereisamu} is to show that $P(\hat t) > 1$ for some $\hat t$. If one could verify that $P(\hat t)>1$ for some $\hat t$ in another way, then assumption (\textbf{S}) would be unnecessary.
-
-%	We have been unable to dispense with assumption (\textbf{S}) for this reason, but it is not a practical restriction for IPMs. The interval $[U - \ee_2, U]$ on which $s(x)$ needs to be constant can be made so small as to have little effect on the model, and also the largest individuals are often the smallest in number.
 
 The following corollary is a critical result:
 
@@ -597,9 +593,9 @@ Now that we have shown the operator $T:L^1 \to L^1$ is strictly nonsupporting, a
 	\[\langle \varphi, \psi^* \rangle \psi = \lim_{n \to \infty} \left \langle \frac{T^n \varphi}{\lambda^n}, \psi^* \right \rangle \psi = \langle B_1 \varphi, \psi^* \rangle \psi.\]
 	Thus, for any $\varphi \in L^1$ we have
 	\begin{align*}
-		\langle \varphi, \psi^* \rangle = \langle B_1 \varphi, \psi^* \rangle = \langle \langle \varphi, h \rangle \psi, \psi^* \rangle = \langle \varphi, h \rangle \cdot \underbrace{\langle \psi, \psi^* \rangle}_{=1} = \langle \varphi, h \rangle.
+		\langle \varphi, \psi^* \rangle = \langle B_1 \varphi, \psi^* \rangle = \langle \langle \varphi, h \rangle \psi, \psi^* \rangle = \langle \varphi, h \rangle \cdot \langle \psi, \psi^* \rangle = \langle \varphi, h \rangle, \quad \text{since } \langle \psi, \psi^* \rangle = 1.
 	\end{align*}
-	Subtracting the left- and right-hand sides gives $\langle \varphi, \psi^* - h \rangle = 0$ for every $\varphi \in L^1$, which implies that $\psi^* = h$ almost-everywhere, as claimed.
+	Subtracting the left- and right-hand sides of the preceding equation gives $\langle \varphi, \psi^* - h \rangle = 0$ for every $\varphi \in L^1$, which implies that $\psi^* = h$ almost-everywhere, as claimed.
 	
 	Then for any nonzero $\varphi_0 \in K$, we have
 	\[\lim_{n \to \infty} \frac{T^n \varphi_0}{\lambda^n} = \langle \varphi_0, \psi^* \rangle \psi,\]
@@ -618,4 +614,4 @@ Additionally, we can give an explicit formula for the leading eigenvector $\psi$
 	This is an immediate consequence of Lemma \ref{th:eigenvector} and Theorem \ref{th:main}.
 \end{proof}
 
-This corollary also shows that the $t$ from Corollary \ref{th:Pis1} must in fact be $\lambda = r(T)$.
+This corollary also shows that the $t_0$ from Corollary \ref{th:Pis1} must in fact be $\lambda = r(T)$.
